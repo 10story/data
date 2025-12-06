@@ -14,7 +14,7 @@
       -webkit-user-select: none; user-select: none; touch-action: none;
     }
     #canvas-container { 
-      position: relative; width: 900px; height: 780px;
+      position: relative; width: 900px; height: 820px;
       background: white; border-radius: 16px;
       box-shadow: 0 2px 20px rgba(0,0,0,0.08); overflow: hidden;
     }
@@ -43,8 +43,6 @@
     let zeroOutAnimating = false;
     let zeroOutPairs = [];
     let zeroOutProgress = 0;
-    let zeroOutSide = null;
-    let zeroOutNetValue = 0;
     let fadingElements = [];
     let solveButtonHover = false, clearButtonHover = false;
     let challengeTabHover = false, buildTabHover = false;
@@ -52,10 +50,10 @@
     
     const TABS_Y = 25, EQUATION_Y = 70, STEPS_START_Y = 130;
     const BALANCE_BEAM_Y = 500, EQUATION_DISPLAY_Y = 580;
-    const BUTTON_Y = 660, SOURCE_Y = 730;
+    const BUTTON_Y = 660, SOURCE_Y = 770;
 
     function setup() {
-      let canvas = createCanvas(900, 780);
+      let canvas = createCanvas(900, 820);
       canvas.parent('canvas-container');
       generateNewProblem();
     }
@@ -129,7 +127,6 @@
         let eqStr = (targetA === 1 ? 'x' : targetA + 'x') + ' + ' + targetB + ' = ' + targetC;
         text(eqStr, 450, EQUATION_Y);
         
-        // Double checkmark when both sides match
         if (leftMatch && rightMatch && phase === 'build') {
           drawCheckmark(700, EQUATION_Y, 1.2, color(34, 197, 94));
           drawCheckmark(750, EQUATION_Y, 1.2, color(34, 197, 94));
@@ -141,15 +138,14 @@
           drawCheckmark(780, EQUATION_Y, 1.2, color(34, 197, 94));
         }
       } else {
+        // Build mode - show equation if there's content
         let leftEq = buildSideEq(leftSide);
         let rightEq = buildSideEq(rightSide);
         if (leftEq || rightEq) {
           fill(60); text((leftEq || '?') + ' = ' + (rightEq || '?'), 450, EQUATION_Y);
           if (phase === 'solved') drawCheckmark(780, EQUATION_Y, 1.2, color(34, 197, 94));
-        } else {
-          fill(190); textSize(32);
-          text('Drag pieces to build an equation', 450, EQUATION_Y);
         }
+        // No placeholder text in build mode
       }
     }
     
@@ -225,13 +221,17 @@
         drawCheckmark(350, EQUATION_DISPLAY_Y, 0.8, color(34, 197, 94));
       }
       
-      // Equals sign
-      if (phase === 'solve' && showWrongAnswer) {
-        fill(200, 80, 80); text('≠', 450, EQUATION_DISPLAY_Y);
-      } else if (phase === 'solved') {
-        fill(34, 197, 94); text('=', 450, EQUATION_DISPLAY_Y);
-      } else {
-        fill(140); text('=', 450, EQUATION_DISPLAY_Y);
+      // Only show equals sign if both sides match in challenge build mode, or always in other modes
+      let showEquals = (mode === 'build') || (phase !== 'build') || (leftMatch && rightMatch);
+      
+      if (showEquals) {
+        if (phase === 'solve' && showWrongAnswer) {
+          fill(200, 80, 80); text('≠', 450, EQUATION_DISPLAY_Y);
+        } else if (phase === 'solved') {
+          fill(34, 197, 94); text('=', 450, EQUATION_DISPLAY_Y);
+        } else {
+          fill(140); text('=', 450, EQUATION_DISPLAY_Y);
+        }
       }
       
       // Right side
@@ -332,7 +332,6 @@
     }
 
     function drawButtons() {
-      // Solve button when both sides match
       if (phase === 'build' && mode === 'challenge' && leftMatch && rightMatch) {
         let btnX = 450, btnY = BUTTON_Y;
         fill(solveButtonHover ? color(85, 50, 140) : color(100, 60, 160));
@@ -341,7 +340,6 @@
         text('Solve', btnX, btnY);
       }
       
-      // Build mode test button
       if (phase === 'build' && mode === 'build' && hasContent()) {
         let btnX = 450, btnY = BUTTON_Y;
         fill(solveButtonHover ? color(85, 50, 140) : color(100, 60, 160));
@@ -390,7 +388,6 @@
         fill(180); textSize(11); text('click to type', inputX + 10, inputY);
       }
       
-      // Question mark button
       if (phase === 'solve') {
         let qX = inputX + 75, qY = inputY;
         fill(checkHover ? color(100, 60, 160) : 220);
@@ -403,18 +400,21 @@
 
     function drawSourceArea() {
       stroke(230); strokeWeight(1);
-      line(60, SOURCE_Y - 45, 840, SOURCE_Y - 45);
-      drawCup(80, SOURCE_Y, 60, 52);
-      fill(150); noStroke(); textSize(11); textFont('Poppins'); textAlign(CENTER);
-      text('x', 80, SOURCE_Y + 40);
-      drawSingleCube(170, SOURCE_Y, 22, 'green'); fill(34, 139, 34); text('+1', 170, SOURCE_Y + 40);
-      drawCubeUnit(270, SOURCE_Y, 3); fill(34, 139, 34); text('+3', 270, SOURCE_Y + 40);
-      drawCubeUnit(400, SOURCE_Y, 9); fill(34, 139, 34); text('+9', 400, SOURCE_Y + 40);
-      drawSingleCube(520, SOURCE_Y, 22, 'black'); fill(60); text('-1', 520, SOURCE_Y + 40);
-      drawCubeUnit(620, SOURCE_Y, -3); fill(60); text('-3', 620, SOURCE_Y + 40);
-      drawCubeUnit(750, SOURCE_Y, -9); fill(60); text('-9', 750, SOURCE_Y + 40);
+      line(60, SOURCE_Y - 55, 840, SOURCE_Y - 55);
       
-      let clearX = 855, clearY = SOURCE_Y;
+      drawCup(70, SOURCE_Y, 60, 52);
+      fill(150); noStroke(); textSize(11); textFont('Poppins'); textAlign(CENTER);
+      text('x', 70, SOURCE_Y + 42);
+      
+      drawSingleCube(150, SOURCE_Y, 22, 'green'); fill(34, 139, 34); text('+1', 150, SOURCE_Y + 42);
+      drawCubeUnit(240, SOURCE_Y, 3); fill(34, 139, 34); text('+3', 240, SOURCE_Y + 42);
+      drawCubeUnit(360, SOURCE_Y, 9); fill(34, 139, 34); text('+9', 360, SOURCE_Y + 42);
+      
+      drawSingleCube(500, SOURCE_Y, 22, 'black'); fill(60); text('-1', 500, SOURCE_Y + 42);
+      drawCubeUnit(590, SOURCE_Y, -3); fill(60); text('-3', 590, SOURCE_Y + 42);
+      drawCubeUnit(710, SOURCE_Y, -9); fill(60); text('-9', 710, SOURCE_Y + 42);
+      
+      let clearX = 830, clearY = SOURCE_Y;
       fill(clearButtonHover ? 235 : 248); stroke(200); strokeWeight(1);
       rect(clearX - 32, clearY - 18, 64, 36, 8);
       fill(120); noStroke(); textSize(14); textAlign(CENTER, CENTER);
@@ -436,15 +436,14 @@
           let y2 = lerp(pair.by, pair.my, t);
           drawSingleCube(x1, y1, 22, 'green');
           drawSingleCube(x2, y2, 22, 'black');
-        } else if (p < 0.8) {
+        } else if (p < 0.85) {
           // Kiss and drop
-          let t = (p - 0.5) / 0.3;
-          let dropY = lerp(pair.my, SOURCE_Y - 50, t);
-          let alpha = 255 * (1 - t * 0.5);
+          let t = (p - 0.5) / 0.35;
+          let dropY = lerp(pair.my, SOURCE_Y, t);
           drawSingleCube(pair.mx - 14, dropY, 22, 'green');
           drawSingleCube(pair.mx + 14, dropY, 22, 'black');
         }
-        // After 0.8, don't draw - they've faded
+        // After 0.85, they've dropped out of view
       }
     }
     
@@ -453,7 +452,7 @@
       zeroOutProgress = 0;
       zeroOutPairs = [];
       
-      // Process each side by VALUE, not by object
+      // Process each side
       for (let side of ['left', 'right']) {
         let sideCubes = cubes.filter(c => c.side === side);
         let posTotal = sideCubes.filter(c => c.value > 0).reduce((s, c) => s + c.value, 0);
@@ -461,116 +460,157 @@
         
         if (posTotal === 0 || negTotal === 0) continue;
         
-        let pairsToCancel = min(posTotal, negTotal);
+        let toCancel = min(posTotal, negTotal);
         
-        // Get average positions for animation
-        let posCubes = sideCubes.filter(c => c.value > 0);
-        let negCubes = sideCubes.filter(c => c.value < 0);
+        // We need to mark exactly `toCancel` units of positive and negative for removal
+        // This may require splitting blocks
         
-        let posAvgX = posCubes.reduce((s, c) => s + c.x, 0) / posCubes.length;
-        let posAvgY = posCubes.reduce((s, c) => s + c.y, 0) / posCubes.length;
-        let negAvgX = negCubes.reduce((s, c) => s + c.x, 0) / negCubes.length;
-        let negAvgY = negCubes.reduce((s, c) => s + c.y, 0) / negCubes.length;
+        let posCubes = sideCubes.filter(c => c.value > 0).slice(); // copy
+        let negCubes = sideCubes.filter(c => c.value < 0).slice();
         
-        let meetX = (posAvgX + negAvgX) / 2;
-        let meetY = (posAvgY + negAvgY) / 2;
+        // Sort by value ascending (prefer smaller blocks first)
+        posCubes.sort((a, b) => a.value - b.value);
+        negCubes.sort((a, b) => Math.abs(a.value) - Math.abs(b.value));
         
-        // Create visual pairs for animation (one pair per unit cancelled)
-        for (let i = 0; i < pairsToCancel; i++) {
-          zeroOutPairs.push({
-            gx: posAvgX + random(-15, 15),
-            gy: posAvgY + random(-15, 15),
-            bx: negAvgX + random(-15, 15),
-            by: negAvgY + random(-15, 15),
-            mx: meetX,
-            my: meetY,
-            side: side
-          });
-        }
+        let posRemaining = toCancel;
+        let negRemaining = toCancel;
         
-        // Mark ALL cubes on this side for removal
-        for (let cube of sideCubes) {
-          cube.zeroingOut = true;
-          cube.originalValue = cube.value;
-          cube.side = side;
-        }
+        // Track cubes to remove and positions for animation
+        let posToRemove = [];
+        let negToRemove = [];
         
-        // Calculate net value after zeroing
-        let netValue = posTotal - negTotal;
-        
-        // Store info for creating replacement cubes
-        if (!zeroOutSide) zeroOutSide = {};
-        zeroOutSide[side] = {
-          netValue: netValue,
-          avgX: side === 'left' ? 300 : 740,
-          avgY: BALANCE_BEAM_Y - 80
-        };
-      }
-    }
-    
-    function finishZeroOut() {
-      // Remove all cubes marked for zeroing
-      let sidesToProcess = {};
-      for (let cube of cubes) {
-        if (cube.zeroingOut) {
-          sidesToProcess[cube.side] = true;
-        }
-      }
-      cubes = cubes.filter(c => !c.zeroingOut);
-      
-      // Add back cubes for net values
-      if (zeroOutSide) {
-        for (let side in zeroOutSide) {
-          let info = zeroOutSide[side];
-          let netValue = info.netValue;
+        // Process positive cubes
+        for (let cube of posCubes) {
+          if (posRemaining <= 0) break;
           
-          if (netValue !== 0) {
-            // Create new cube(s) for the net value
-            let isPositive = netValue > 0;
-            let absVal = Math.abs(netValue);
+          if (cube.value <= posRemaining) {
+            // Remove entire cube/block
+            cube.zeroingOut = true;
+            // Add animation positions for each unit
+            for (let i = 0; i < cube.value; i++) {
+              posToRemove.push({ x: cube.x + random(-10, 10), y: cube.y + random(-10, 10) });
+            }
+            posRemaining -= cube.value;
+          } else {
+            // Need to split this block
+            let removeCount = posRemaining;
+            let keepCount = cube.value - removeCount;
+            let origX = cube.x, origY = cube.y;
+            let origValue = cube.value;
+            let isPositive = cube.value > 0;
             
-            // Try to use fewest cubes (9s, then 3s, then 1s)
-            let y = info.avgY;
-            while (absVal >= 9) {
+            // Remove original block from cubes array
+            let idx = cubes.indexOf(cube);
+            if (idx > -1) cubes.splice(idx, 1);
+            
+            // Create individual cubes for the portion to KEEP
+            let keepPositions = getBlockPositions(origX, origY, origValue);
+            for (let i = 0; i < keepCount; i++) {
+              let pos = keepPositions[i];
               cubes.push({
                 type: 'cube',
-                x: info.avgX + random(-20, 20),
-                y: y,
-                side: side,
-                value: isPositive ? 9 : -9
-              });
-              absVal -= 9;
-              y -= 50;
-            }
-            while (absVal >= 3) {
-              cubes.push({
-                type: 'cube',
-                x: info.avgX + random(-20, 20),
-                y: y,
-                side: side,
-                value: isPositive ? 3 : -3
-              });
-              absVal -= 3;
-              y -= 35;
-            }
-            while (absVal >= 1) {
-              cubes.push({
-                type: 'cube',
-                x: info.avgX + random(-20, 20),
-                y: y,
+                x: pos.x,
+                y: pos.y,
                 side: side,
                 value: isPositive ? 1 : -1
               });
-              absVal -= 1;
-              y -= 30;
             }
+            
+            // Add positions for animation (the removed portion)
+            for (let i = keepCount; i < origValue; i++) {
+              let pos = keepPositions[i];
+              posToRemove.push({ x: pos.x, y: pos.y });
+            }
+            
+            posRemaining = 0;
+          }
+        }
+        
+        // Process negative cubes
+        for (let cube of negCubes) {
+          if (negRemaining <= 0) break;
+          
+          let absVal = Math.abs(cube.value);
+          
+          if (absVal <= negRemaining) {
+            cube.zeroingOut = true;
+            for (let i = 0; i < absVal; i++) {
+              negToRemove.push({ x: cube.x + random(-10, 10), y: cube.y + random(-10, 10) });
+            }
+            negRemaining -= absVal;
+          } else {
+            // Split
+            let removeCount = negRemaining;
+            let keepCount = absVal - removeCount;
+            let origX = cube.x, origY = cube.y;
+            let origAbsValue = absVal;
+            
+            let idx = cubes.indexOf(cube);
+            if (idx > -1) cubes.splice(idx, 1);
+            
+            let keepPositions = getBlockPositions(origX, origY, origAbsValue);
+            for (let i = 0; i < keepCount; i++) {
+              let pos = keepPositions[i];
+              cubes.push({
+                type: 'cube',
+                x: pos.x,
+                y: pos.y,
+                side: side,
+                value: -1
+              });
+            }
+            
+            for (let i = keepCount; i < origAbsValue; i++) {
+              let pos = keepPositions[i];
+              negToRemove.push({ x: pos.x, y: pos.y });
+            }
+            
+            negRemaining = 0;
+          }
+        }
+        
+        // Create animation pairs
+        let pairCount = min(posToRemove.length, negToRemove.length);
+        for (let i = 0; i < pairCount; i++) {
+          let p = posToRemove[i];
+          let n = negToRemove[i];
+          zeroOutPairs.push({
+            gx: p.x, gy: p.y,
+            bx: n.x, by: n.y,
+            mx: (p.x + n.x) / 2,
+            my: (p.y + n.y) / 2
+          });
+        }
+      }
+    }
+    
+    // Get positions for individual cubes within a block
+    function getBlockPositions(x, y, absValue) {
+      let positions = [];
+      let size = 22;
+      
+      if (absValue === 1) {
+        positions.push({ x: x, y: y });
+      } else if (absValue === 3) {
+        positions.push({ x: x - size - 2, y: y });
+        positions.push({ x: x, y: y });
+        positions.push({ x: x + size + 2, y: y });
+      } else if (absValue === 9) {
+        let s = size - 2;
+        for (let r = 0; r < 3; r++) {
+          for (let c = 0; c < 3; c++) {
+            positions.push({ x: x + (c - 1) * (s + 1), y: y + (r - 1) * (s + 1) });
           }
         }
       }
-      
+      return positions;
+    }
+    
+    function finishZeroOut() {
+      // Remove cubes marked for zeroing
+      cubes = cubes.filter(c => !c.zeroingOut);
       zeroOutAnimating = false;
       zeroOutPairs = [];
-      zeroOutSide = null;
       recalcSides();
       
       if (phase === 'solve') updateSolveStep();
@@ -608,7 +648,6 @@
       }
     }
 
-    // Get exclusion radius for a cube based on its value
     function getCubeRadius(value) {
       let absVal = Math.abs(value);
       if (absVal === 9) return 45;
@@ -616,15 +655,11 @@
       return 22;
     }
 
-    // Check if a cup can be placed at position (avoiding cubes)
-    function canPlaceCupAt(x, y, ignoreCup) {
+    function canPlaceCupAt(x, y) {
       const CUP_RADIUS = 45;
       for (let cube of cubes) {
         let cubeRadius = getCubeRadius(cube.value);
-        let minDist = CUP_RADIUS + cubeRadius;
-        if (dist(x, y, cube.x, cube.y) < minDist) {
-          return false;
-        }
+        if (dist(x, y, cube.x, cube.y) < CUP_RADIUS + cubeRadius) return false;
       }
       return true;
     }
@@ -637,18 +672,15 @@
         if (mx > 135 && mx < 275 && mode !== 'build') { mode = 'build'; generateNewProblem(); return; }
       }
       
-      if (mx > 823 && mx < 887 && my > SOURCE_Y - 18 && my < SOURCE_Y + 18) { clearWithFade(); return; }
+      if (mx > 798 && mx < 862 && my > SOURCE_Y - 18 && my < SOURCE_Y + 18) { clearWithFade(); return; }
       
       if (phase === 'solved' && mode === 'challenge' && mx > 685 && mx < 815 && my > BUTTON_Y - 22 && my < BUTTON_Y + 22) {
         generateNewProblem(); return;
       }
       
-      // Question mark to check answer
       if (phase === 'solve' && xValue !== null) {
         let qX = 450 + 75, qY = BUTTON_Y;
-        if (dist(mx, my, qX, qY) < 20) {
-          checkAnswer(); return;
-        }
+        if (dist(mx, my, qX, qY) < 20) { checkAnswer(); return; }
       }
       
       if ((phase === 'solve' || phase === 'solved') && mx > 415 && mx < 505 && my > BUTTON_Y - 24 && my < BUTTON_Y + 24) {
@@ -684,31 +716,32 @@
         }
       }
       
-      if (dist(mx, my, 80, SOURCE_Y) < 38) {
+      // Source elements
+      if (dist(mx, my, 70, SOURCE_Y) < 38) {
         selectedElement = { type: 'cup', x: mx, y: my, side: null, isNew: true };
         cups.push(selectedElement); return;
       }
-      if (dist(mx, my, 170, SOURCE_Y) < 22) {
+      if (dist(mx, my, 150, SOURCE_Y) < 22) {
         selectedElement = { type: 'cube', x: mx, y: my, side: null, value: 1, isNew: true };
         cubes.push(selectedElement); return;
       }
-      if (dist(mx, my, 270, SOURCE_Y) < 42) {
+      if (dist(mx, my, 240, SOURCE_Y) < 42) {
         selectedElement = { type: 'cube', x: mx, y: my, side: null, value: 3, isNew: true };
         cubes.push(selectedElement); return;
       }
-      if (dist(mx, my, 400, SOURCE_Y) < 45) {
+      if (dist(mx, my, 360, SOURCE_Y) < 50) {
         selectedElement = { type: 'cube', x: mx, y: my, side: null, value: 9, isNew: true };
         cubes.push(selectedElement); return;
       }
-      if (dist(mx, my, 520, SOURCE_Y) < 22) {
+      if (dist(mx, my, 500, SOURCE_Y) < 22) {
         selectedElement = { type: 'cube', x: mx, y: my, side: null, value: -1, isNew: true };
         cubes.push(selectedElement); return;
       }
-      if (dist(mx, my, 620, SOURCE_Y) < 42) {
+      if (dist(mx, my, 590, SOURCE_Y) < 42) {
         selectedElement = { type: 'cube', x: mx, y: my, side: null, value: -3, isNew: true };
         cubes.push(selectedElement); return;
       }
-      if (dist(mx, my, 750, SOURCE_Y) < 45) {
+      if (dist(mx, my, 710, SOURCE_Y) < 50) {
         selectedElement = { type: 'cube', x: mx, y: my, side: null, value: -9, isNew: true };
         cubes.push(selectedElement); return;
       }
@@ -745,10 +778,9 @@
       if (onBalance && (onLeft || onRight)) {
         let newSide = onLeft ? 'left' : 'right';
         
-        // Cup placement - check exclusion zones around cubes
+        // Cup placement - check exclusion zones
         if (elem.type === 'cup') {
-          if (!canPlaceCupAt(elem.x, elem.y, elem)) {
-            // Can't place here - remove
+          if (!canPlaceCupAt(elem.x, elem.y)) {
             let idx = cups.indexOf(elem);
             if (idx > -1) { fadingElements.push({ ...elem, alpha: 255 }); cups.splice(idx, 1); }
             recalcSides(); checkSetup();
@@ -759,13 +791,18 @@
         // Solve mode: new elements appear on BOTH sides
         if (phase === 'solve' && elem.isNew) {
           elem.side = newSide; elem.isNew = false;
+          elem.solvePaired = true; // mark as paired
           let mirrorSide = newSide === 'left' ? 'right' : 'left';
           let mirrorX = newSide === 'left' ? elem.x + 440 : elem.x - 440;
+          let mirror;
           if (elem.type === 'cup') {
-            cups.push({ type: 'cup', x: mirrorX, y: elem.y, side: mirrorSide });
+            mirror = { type: 'cup', x: mirrorX, y: elem.y, side: mirrorSide, solvePaired: true, pairId: elem };
+            cups.push(mirror);
           } else {
-            cubes.push({ type: 'cube', x: mirrorX, y: elem.y, side: mirrorSide, value: elem.value });
+            mirror = { type: 'cube', x: mirrorX, y: elem.y, side: mirrorSide, value: elem.value, solvePaired: true, pairId: elem };
+            cubes.push(mirror);
           }
+          elem.pairId = mirror;
           recalcSides(); updateSolveStep();
           return;
         }
@@ -773,7 +810,19 @@
         elem.side = newSide; elem.isNew = false;
         recalcSides(); checkSetup();
       } else {
-        // Remove element
+        // Dragged OFF balance - remove element
+        // In solve mode, also remove the paired element
+        if (phase === 'solve' && elem.solvePaired && elem.pairId) {
+          // Remove the mirror element too
+          if (elem.type === 'cup') {
+            let idx = cups.indexOf(elem.pairId);
+            if (idx > -1) cups.splice(idx, 1);
+          } else {
+            let idx = cubes.indexOf(elem.pairId);
+            if (idx > -1) cubes.splice(idx, 1);
+          }
+        }
+        
         if (elem.type === 'cup') {
           let idx = cups.indexOf(elem);
           if (idx > -1) { fadingElements.push({ ...elem, alpha: 255 }); cups.splice(idx, 1); }
@@ -782,6 +831,8 @@
           if (idx > -1) cubes.splice(idx, 1);
         }
         recalcSides(); checkSetup();
+        
+        if (phase === 'solve') updateSolveStep();
       }
     }
     
@@ -793,7 +844,7 @@
     function mouseMoved() {
       let canSolve = (mode === 'challenge' && leftMatch && rightMatch) || (mode === 'build' && hasContent());
       solveButtonHover = (phase === 'build' && canSolve && mouseX > 380 && mouseX < 520 && mouseY > BUTTON_Y - 24 && mouseY < BUTTON_Y + 24);
-      clearButtonHover = (mouseX > 823 && mouseX < 887 && mouseY > SOURCE_Y - 18 && mouseY < SOURCE_Y + 18);
+      clearButtonHover = (mouseX > 798 && mouseX < 862 && mouseY > SOURCE_Y - 18 && mouseY < SOURCE_Y + 18);
       challengeTabHover = (mouseY > TABS_Y && mouseY < TABS_Y + 32 && mouseX > 25 && mouseX < 125);
       buildTabHover = (mouseY > TABS_Y && mouseY < TABS_Y + 32 && mouseX > 135 && mouseX < 275);
       nextButtonHover = (phase === 'solved' && mode === 'challenge' && mouseX > 685 && mouseX < 815 && mouseY > BUTTON_Y - 22 && mouseY < BUTTON_Y + 22);
