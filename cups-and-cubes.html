@@ -14,7 +14,7 @@
       -webkit-user-select: none; user-select: none; touch-action: none;
     }
     #canvas-container { 
-      position: relative; width: 900px; height: 820px;
+      position: relative; width: 900px; height: 685px;
       background: white; border-radius: 16px;
       box-shadow: 0 2px 20px rgba(0,0,0,0.08); overflow: hidden;
     }
@@ -29,7 +29,12 @@
     let selectedElement = null;
     let dragOffsetX = 0, dragOffsetY = 0;
     let mode = 'challenge';
+    let questionType = '2-step';
+    let questionTypes = ['1-step', '1-step with ( - )', '2-step', '2-step with ( - )', 'Distributive'];
+    let dropdownOpen = false;
+    let dropdownHoverIndex = -1;
     let targetA = 2, targetB = 3, targetC = 7, targetSolution = 2;
+    let distributiveA = 2, distributiveB = 3; // for distributive: a(x + b) = c
     let leftSide = { cups: 0, positiveCubes: 0, negativeCubes: 0 };
     let rightSide = { cups: 0, positiveCubes: 0, negativeCubes: 0 };
     let phase = 'build';
@@ -44,27 +49,88 @@
     let zeroOutPairs = [];
     let zeroOutProgress = 0;
     let fadingElements = [];
-    let solveButtonHover = false, clearButtonHover = false;
+    let solveButtonHover = false, newQuestionHover = false;
     let challengeTabHover = false, buildTabHover = false;
     let nextButtonHover = false, zeroOutHover = false, checkHover = false;
+    let clearButtonHover = false;
+    let dropdownButtonHover = false;
+    
+    let equationBalanced = true;
+    
+    let balanceTilt = 0;
+    let balanceTiltTarget = 0;
+    let balanceTiltMax = 8;
     
     const TABS_Y = 25, EQUATION_Y = 70, STEPS_START_Y = 130;
-    const BALANCE_BEAM_Y = 500, EQUATION_DISPLAY_Y = 580;
-    const BUTTON_Y = 660, SOURCE_Y = 770;
+    const BALANCE_BEAM_Y = 385, EQUATION_DISPLAY_Y = 465;
+    const BUTTON_Y = 535, SOURCE_Y = 635;
+    const DROPDOWN_Y = 62;
 
     function setup() {
-      let canvas = createCanvas(900, 820);
+      let canvas = createCanvas(900, 685);
       canvas.parent('canvas-container');
       generateNewProblem();
     }
 
     function generateNewProblem() {
       if (mode === 'challenge') {
+        generateProblemForType(questionType);
+      }
+      clearBalance();
+    }
+    
+    function generateProblemForType(type) {
+      if (type === '1-step') {
+        // ax = c or x + b = c
+        if (random() < 0.5) {
+          targetA = floor(random(2, 5));
+          targetB = 0;
+          targetSolution = floor(random(1, 6));
+          targetC = targetA * targetSolution;
+        } else {
+          targetA = 1;
+          targetB = floor(random(1, 9));
+          targetSolution = floor(random(1, 6));
+          targetC = targetSolution + targetB;
+        }
+      } else if (type === '1-step with ( - )') {
+        if (random() < 0.5) {
+          targetA = floor(random(2, 5));
+          targetB = 0;
+          targetSolution = floor(random(-5, 6));
+          if (targetSolution === 0) targetSolution = 1;
+          targetC = targetA * targetSolution;
+        } else {
+          targetA = 1;
+          targetB = floor(random(-8, 9));
+          if (targetB === 0) targetB = 1;
+          targetSolution = floor(random(-5, 6));
+          if (targetSolution === 0) targetSolution = 1;
+          targetC = targetSolution + targetB;
+        }
+      } else if (type === '2-step') {
         targetSolution = floor(random(1, 6));
         targetA = floor(random(1, 5));
         targetB = floor(random(1, 7));
         targetC = targetA * targetSolution + targetB;
+      } else if (type === '2-step with ( - )') {
+        targetSolution = floor(random(-5, 6));
+        if (targetSolution === 0) targetSolution = 1;
+        targetA = floor(random(1, 5));
+        targetB = floor(random(-6, 7));
+        if (targetB === 0) targetB = 1;
+        targetC = targetA * targetSolution + targetB;
+      } else if (type === 'Distributive') {
+        targetSolution = floor(random(1, 5));
+        distributiveA = floor(random(2, 5));
+        distributiveB = floor(random(1, 5));
+        targetA = distributiveA;
+        targetB = distributiveA * distributiveB;
+        targetC = distributiveA * (targetSolution + distributiveB);
       }
+    }
+    
+    function clearBalance() {
       cups = []; cubes = [];
       leftSide = { cups: 0, positiveCubes: 0, negativeCubes: 0 };
       rightSide = { cups: 0, positiveCubes: 0, negativeCubes: 0 };
@@ -72,6 +138,8 @@
       xValue = null; solveSteps = []; xInputFocused = false;
       showWrongAnswer = false; wrongAnswerTimer = 0;
       zeroOutAnimating = false; zeroOutPairs = [];
+      equationBalanced = true;
+      balanceTilt = 0; balanceTiltTarget = 0;
     }
 
     function draw() {
@@ -89,6 +157,7 @@
       if (selectedElement) drawDraggedElement(selectedElement);
       drawFadingElements();
       drawZeroOutAnimation();
+      drawDropdown();
     }
 
     function drawModeTabs() {
@@ -106,7 +175,18 @@
       textAlign(CENTER, CENTER);
       text('Challenge', challengeX + challengeW/2, TABS_Y + tabH/2);
       
-      let buildX = 135, buildW = 140;
+      // Dropdown button under Challenge (only in challenge mode)
+      if (mode === 'challenge') {
+        let dbX = 25, dbW = 130, dbH = 24;
+        fill(dropdownButtonHover || dropdownOpen ? 235 : 245);
+        stroke(200); strokeWeight(1);
+        rect(dbX, DROPDOWN_Y, dbW, dbH, 12);
+        fill(100); noStroke();
+        textSize(11);
+        text(questionType + ' ▼', dbX + dbW/2, DROPDOWN_Y + dbH/2);
+      }
+      
+      let buildX = 165, buildW = 140;
       if (mode === 'build') {
         fill(100, 60, 160); noStroke();
         rect(buildX, TABS_Y, buildW, tabH, 16); fill(255);
@@ -115,8 +195,39 @@
         stroke(220); strokeWeight(1);
         rect(buildX, TABS_Y, buildW, tabH, 16); fill(120);
       }
-      noStroke();
+      noStroke(); textSize(13);
       text('Build an Equation', buildX + buildW/2, TABS_Y + tabH/2);
+      
+      // New Question button
+      let nqX = 630, nqW = 120;
+      fill(newQuestionHover ? 240 : 250);
+      stroke(220); strokeWeight(1);
+      rect(nqX, TABS_Y, nqW, tabH, 16);
+      fill(120); noStroke();
+      text('New Question', nqX + nqW/2, TABS_Y + tabH/2);
+    }
+    
+    function drawDropdown() {
+      if (!dropdownOpen || mode !== 'challenge') return;
+      
+      let dbX = 25, dbW = 130, itemH = 28;
+      let startY = DROPDOWN_Y + 28;
+      
+      // Background
+      fill(255); stroke(200); strokeWeight(1);
+      rect(dbX, startY, dbW, questionTypes.length * itemH, 8);
+      
+      // Items
+      noStroke(); textSize(11); textAlign(CENTER, CENTER);
+      for (let i = 0; i < questionTypes.length; i++) {
+        let itemY = startY + i * itemH;
+        if (i === dropdownHoverIndex) {
+          fill(240);
+          rect(dbX + 2, itemY + 2, dbW - 4, itemH - 2, i === 0 ? 6 : 0, i === 0 ? 6 : 0, i === questionTypes.length - 1 ? 6 : 0, i === questionTypes.length - 1 ? 6 : 0);
+        }
+        fill(questionTypes[i] === questionType ? color(100, 60, 160) : 80);
+        text(questionTypes[i], dbX + dbW/2, itemY + itemH/2);
+      }
     }
 
     function drawEquationArea() {
@@ -124,28 +235,44 @@
       textFont('Poppins'); fill(40);
       
       if (mode === 'challenge') {
-        let eqStr = (targetA === 1 ? 'x' : targetA + 'x') + ' + ' + targetB + ' = ' + targetC;
+        let eqStr = '';
+        if (questionType === 'Distributive') {
+          eqStr = distributiveA + '(x + ' + distributiveB + ') = ' + targetC;
+        } else {
+          let aStr = targetA === 1 ? 'x' : targetA + 'x';
+          if (targetB === 0) {
+            eqStr = aStr + ' = ' + targetC;
+          } else if (targetB > 0) {
+            eqStr = aStr + ' + ' + targetB + ' = ' + targetC;
+          } else {
+            eqStr = aStr + ' + (' + targetB + ') = ' + targetC;
+          }
+        }
         text(eqStr, 450, EQUATION_Y);
         
+        // "Set up the problem:" text during build phase before setup is complete
+        if (phase === 'build' && !(leftMatch && rightMatch)) {
+          fill(140); textSize(16);
+          text('Set up the problem:', 450, EQUATION_Y + 42);
+        }
+        
         if (leftMatch && rightMatch && phase === 'build') {
-          drawCheckmark(700, EQUATION_Y, 1.2, color(34, 197, 94));
-          drawCheckmark(750, EQUATION_Y, 1.2, color(34, 197, 94));
+          drawCheckmark(720, EQUATION_Y, 1.2, color(34, 197, 94));
+          drawCheckmark(770, EQUATION_Y, 1.2, color(34, 197, 94));
         }
         
         if (phase === 'solved') {
-          drawCheckmark(680, EQUATION_Y, 1.2, color(34, 197, 94));
-          drawCheckmark(730, EQUATION_Y, 1.2, color(34, 197, 94));
-          drawCheckmark(780, EQUATION_Y, 1.2, color(34, 197, 94));
+          drawCheckmark(700, EQUATION_Y, 1.2, color(34, 197, 94));
+          drawCheckmark(750, EQUATION_Y, 1.2, color(34, 197, 94));
+          drawCheckmark(800, EQUATION_Y, 1.2, color(34, 197, 94));
         }
       } else {
-        // Build mode - show equation if there's content
         let leftEq = buildSideEq(leftSide);
         let rightEq = buildSideEq(rightSide);
         if (leftEq || rightEq) {
           fill(60); text((leftEq || '?') + ' = ' + (rightEq || '?'), 450, EQUATION_Y);
           if (phase === 'solved') drawCheckmark(780, EQUATION_Y, 1.2, color(34, 197, 94));
         }
-        // No placeholder text in build mode
       }
     }
     
@@ -170,6 +297,9 @@
     }
 
     function drawBalance() {
+      let leftOffset = balanceTilt * balanceTiltMax;
+      let rightOffset = -balanceTilt * balanceTiltMax;
+      
       fill(30); noStroke();
       triangle(450, BALANCE_BEAM_Y + 8, 415, BALANCE_BEAM_Y + 55, 485, BALANCE_BEAM_Y + 55);
       fill(255); textSize(24); textAlign(CENTER, CENTER);
@@ -186,11 +316,12 @@
       }
       
       stroke(30); strokeWeight(3);
-      line(50, BALANCE_BEAM_Y, 415, BALANCE_BEAM_Y);
-      line(485, BALANCE_BEAM_Y, 850, BALANCE_BEAM_Y);
+      line(50, BALANCE_BEAM_Y + leftOffset, 415, BALANCE_BEAM_Y + leftOffset * 0.3);
+      line(485, BALANCE_BEAM_Y + rightOffset * 0.3, 850, BALANCE_BEAM_Y + rightOffset);
+      
       fill(170); noStroke(); textSize(13); textFont('Poppins');
-      text('LEFT', 230, BALANCE_BEAM_Y + 18);
-      text('RIGHT', 670, BALANCE_BEAM_Y + 18);
+      text('LEFT', 230, BALANCE_BEAM_Y + 18 + leftOffset * 0.6);
+      text('RIGHT', 670, BALANCE_BEAM_Y + 18 + rightOffset * 0.6);
     }
     
     function drawZeroOutButton() {
@@ -213,16 +344,26 @@
       let rightEq = buildSideEq(rightSide);
       if (leftEq === '' && rightEq === '') return;
       
+      let leftOffset = balanceTilt * balanceTiltMax * 0.5;
+      let rightOffset = -balanceTilt * balanceTiltMax * 0.5;
+      
       textSize(32); textFont('Poppins'); textAlign(CENTER, CENTER);
       
-      // Left side
-      fill(60); text(leftEq || '0', 230, EQUATION_DISPLAY_Y);
+      fill(60); text(leftEq || '0', 230, EQUATION_DISPLAY_Y + leftOffset);
       if (mode === 'challenge' && leftMatch && phase === 'build') {
-        drawCheckmark(350, EQUATION_DISPLAY_Y, 0.8, color(34, 197, 94));
+        drawCheckmark(350, EQUATION_DISPLAY_Y + leftOffset, 0.8, color(34, 197, 94));
       }
       
-      // Only show equals sign if both sides match in challenge build mode, or always in other modes
-      let showEquals = (mode === 'build') || (phase !== 'build') || (leftMatch && rightMatch);
+      let showEquals = false;
+      if (mode === 'build') {
+        showEquals = true;
+      } else if (phase === 'build') {
+        showEquals = leftMatch && rightMatch;
+      } else if (phase === 'solve') {
+        showEquals = equationBalanced;
+      } else if (phase === 'solved') {
+        showEquals = true;
+      }
       
       if (showEquals) {
         if (phase === 'solve' && showWrongAnswer) {
@@ -234,10 +375,9 @@
         }
       }
       
-      // Right side
-      fill(60); text(rightEq || '0', 670, EQUATION_DISPLAY_Y);
+      fill(60); text(rightEq || '0', 670, EQUATION_DISPLAY_Y + rightOffset);
       if (mode === 'challenge' && rightMatch && phase === 'build') {
-        drawCheckmark(550, EQUATION_DISPLAY_Y, 0.8, color(34, 197, 94));
+        drawCheckmark(550, EQUATION_DISPLAY_Y + rightOffset, 0.8, color(34, 197, 94));
       }
     }
     
@@ -255,31 +395,56 @@
     }
 
     function drawElementsOnBalance() {
+      let leftOffset = balanceTilt * balanceTiltMax * 0.6;
+      let rightOffset = -balanceTilt * balanceTiltMax * 0.6;
+      
       for (let cup of cups) {
         if (cup !== selectedElement) {
-          drawCup(cup.x, cup.y, 75, 65);
+          let yOff = cup.side === 'left' ? leftOffset : (cup.side === 'right' ? rightOffset : 0);
+          drawCup(cup.x, cup.y + yOff, 75, 65);
           if ((phase === 'solve' || phase === 'solved') && xValue !== null && xValue !== 0) {
-            drawCubesInCup(cup);
+            drawCubesInCup(cup, yOff);
           }
         }
       }
       for (let cube of cubes) {
         if (cube !== selectedElement && !cube.zeroingOut) {
-          drawCubeUnit(cube.x, cube.y, cube.value);
+          let yOff = cube.side === 'left' ? leftOffset : (cube.side === 'right' ? rightOffset : 0);
+          drawCubeUnit(cube.x, cube.y + yOff, cube.value);
         }
       }
     }
     
-    function drawCubesInCup(cup) {
+    function drawCubesInCup(cup, yOffset) {
       let size = 14, cols = 3;
       let absVal = Math.abs(xValue);
       let col = xValue > 0 ? 'green' : 'black';
       let startX = cup.x - (cols * size) / 2 + size/2;
-      let startY = cup.y + 22;
-      for (let i = 0; i < absVal && i < 12; i++) {
-        let row = floor(i / cols), c = i % cols;
+      let startY = cup.y + yOffset + 22;
+      
+      for (let i = 0; i < absVal; i++) {
+        let row = floor(i / cols);
+        let c = i % cols;
         drawSingleCube(startX + c * (size + 2), startY - row * (size + 2), size, col);
       }
+    }
+    
+    function getCubesInCupPositions(cup) {
+      if (xValue === null || xValue === 0) return [];
+      let positions = [];
+      let size = 14, cols = 3;
+      let absVal = Math.abs(xValue);
+      let startX = cup.x - (cols * size) / 2 + size/2;
+      let startY = cup.y + 22;
+      for (let i = 0; i < absVal; i++) {
+        let row = floor(i / cols), c = i % cols;
+        positions.push({
+          x: startX + c * (size + 2),
+          y: startY - row * (size + 2),
+          size: size
+        });
+      }
+      return positions;
     }
     
     function drawCup(x, y, w, h) {
@@ -384,12 +549,8 @@
         }
       }
       
-      if (phase === 'solve' && !xInputFocused && xValue === null) {
-        fill(180); textSize(11); text('click to type', inputX + 10, inputY);
-      }
-      
       if (phase === 'solve') {
-        let qX = inputX + 75, qY = inputY;
+        let qX = inputX + 95, qY = inputY; // moved 20px right
         fill(checkHover ? color(100, 60, 160) : 220);
         noStroke(); ellipse(qX, qY, 36, 36);
         fill(checkHover ? 255 : 80);
@@ -402,22 +563,31 @@
       stroke(230); strokeWeight(1);
       line(60, SOURCE_Y - 55, 840, SOURCE_Y - 55);
       
+      // Cup at far left
       drawCup(70, SOURCE_Y, 60, 52);
       fill(150); noStroke(); textSize(11); textFont('Poppins'); textAlign(CENTER);
       text('x', 70, SOURCE_Y + 42);
       
-      drawSingleCube(150, SOURCE_Y, 22, 'green'); fill(34, 139, 34); text('+1', 150, SOURCE_Y + 42);
-      drawCubeUnit(240, SOURCE_Y, 3); fill(34, 139, 34); text('+3', 240, SOURCE_Y + 42);
-      drawCubeUnit(360, SOURCE_Y, 9); fill(34, 139, 34); text('+9', 360, SOURCE_Y + 42);
+      // Vertical separator
+      stroke(210); strokeWeight(1);
+      line(130, SOURCE_Y - 35, 130, SOURCE_Y + 35);
       
-      drawSingleCube(500, SOURCE_Y, 22, 'black'); fill(60); text('-1', 500, SOURCE_Y + 42);
-      drawCubeUnit(590, SOURCE_Y, -3); fill(60); text('-3', 590, SOURCE_Y + 42);
-      drawCubeUnit(710, SOURCE_Y, -9); fill(60); text('-9', 710, SOURCE_Y + 42);
+      // Order: -9, -3, -1, +1, +3, +9
+      drawCubeUnit(200, SOURCE_Y, -9); fill(60); noStroke(); text('-9', 200, SOURCE_Y + 42);
+      drawCubeUnit(310, SOURCE_Y, -3); fill(60); text('-3', 310, SOURCE_Y + 42);
+      drawSingleCube(400, SOURCE_Y, 22, 'black'); fill(60); text('-1', 400, SOURCE_Y + 42);
       
-      let clearX = 830, clearY = SOURCE_Y;
-      fill(clearButtonHover ? 235 : 248); stroke(200); strokeWeight(1);
-      rect(clearX - 32, clearY - 18, 64, 36, 8);
-      fill(120); noStroke(); textSize(14); textAlign(CENTER, CENTER);
+      drawSingleCube(500, SOURCE_Y, 22, 'green'); fill(34, 139, 34); text('+1', 500, SOURCE_Y + 42);
+      drawCubeUnit(590, SOURCE_Y, 3); fill(34, 139, 34); text('+3', 590, SOURCE_Y + 42);
+      drawCubeUnit(700, SOURCE_Y, 9); fill(34, 139, 34); text('+9', 700, SOURCE_Y + 42);
+      
+      // Clear button at lower right
+      let clearX = 820, clearY = SOURCE_Y;
+      fill(clearButtonHover ? 240 : 250);
+      stroke(220); strokeWeight(1);
+      rect(clearX - 35, clearY - 16, 70, 32, 16);
+      fill(clearButtonHover ? 100 : 150); noStroke();
+      textSize(13); textAlign(CENTER, CENTER);
       text('Clear', clearX, clearY);
     }
 
@@ -428,7 +598,6 @@
       
       for (let pair of zeroOutPairs) {
         if (p < 0.5) {
-          // Move toward each other
           let t = p / 0.5;
           let x1 = lerp(pair.gx, pair.mx - 14, t);
           let x2 = lerp(pair.bx, pair.mx + 14, t);
@@ -437,13 +606,11 @@
           drawSingleCube(x1, y1, 22, 'green');
           drawSingleCube(x2, y2, 22, 'black');
         } else if (p < 0.85) {
-          // Kiss and drop
           let t = (p - 0.5) / 0.35;
           let dropY = lerp(pair.my, SOURCE_Y, t);
           drawSingleCube(pair.mx - 14, dropY, 22, 'green');
           drawSingleCube(pair.mx + 14, dropY, 22, 'black');
         }
-        // After 0.85, they've dropped out of view
       }
     }
     
@@ -452,7 +619,6 @@
       zeroOutProgress = 0;
       zeroOutPairs = [];
       
-      // Process each side
       for (let side of ['left', 'right']) {
         let sideCubes = cubes.filter(c => c.side === side);
         let posTotal = sideCubes.filter(c => c.value > 0).reduce((s, c) => s + c.value, 0);
@@ -462,61 +628,43 @@
         
         let toCancel = min(posTotal, negTotal);
         
-        // We need to mark exactly `toCancel` units of positive and negative for removal
-        // This may require splitting blocks
-        
-        let posCubes = sideCubes.filter(c => c.value > 0).slice(); // copy
+        let posCubes = sideCubes.filter(c => c.value > 0).slice();
         let negCubes = sideCubes.filter(c => c.value < 0).slice();
         
-        // Sort by value ascending (prefer smaller blocks first)
         posCubes.sort((a, b) => a.value - b.value);
         negCubes.sort((a, b) => Math.abs(a.value) - Math.abs(b.value));
         
         let posRemaining = toCancel;
         let negRemaining = toCancel;
         
-        // Track cubes to remove and positions for animation
         let posToRemove = [];
         let negToRemove = [];
         
-        // Process positive cubes
         for (let cube of posCubes) {
           if (posRemaining <= 0) break;
           
           if (cube.value <= posRemaining) {
-            // Remove entire cube/block
             cube.zeroingOut = true;
-            // Add animation positions for each unit
             for (let i = 0; i < cube.value; i++) {
               posToRemove.push({ x: cube.x + random(-10, 10), y: cube.y + random(-10, 10) });
             }
             posRemaining -= cube.value;
           } else {
-            // Need to split this block
             let removeCount = posRemaining;
             let keepCount = cube.value - removeCount;
             let origX = cube.x, origY = cube.y;
             let origValue = cube.value;
             let isPositive = cube.value > 0;
             
-            // Remove original block from cubes array
             let idx = cubes.indexOf(cube);
             if (idx > -1) cubes.splice(idx, 1);
             
-            // Create individual cubes for the portion to KEEP
             let keepPositions = getBlockPositions(origX, origY, origValue);
             for (let i = 0; i < keepCount; i++) {
               let pos = keepPositions[i];
-              cubes.push({
-                type: 'cube',
-                x: pos.x,
-                y: pos.y,
-                side: side,
-                value: isPositive ? 1 : -1
-              });
+              cubes.push({ type: 'cube', x: pos.x, y: pos.y, side: side, value: isPositive ? 1 : -1 });
             }
             
-            // Add positions for animation (the removed portion)
             for (let i = keepCount; i < origValue; i++) {
               let pos = keepPositions[i];
               posToRemove.push({ x: pos.x, y: pos.y });
@@ -526,7 +674,6 @@
           }
         }
         
-        // Process negative cubes
         for (let cube of negCubes) {
           if (negRemaining <= 0) break;
           
@@ -539,7 +686,6 @@
             }
             negRemaining -= absVal;
           } else {
-            // Split
             let removeCount = negRemaining;
             let keepCount = absVal - removeCount;
             let origX = cube.x, origY = cube.y;
@@ -551,13 +697,7 @@
             let keepPositions = getBlockPositions(origX, origY, origAbsValue);
             for (let i = 0; i < keepCount; i++) {
               let pos = keepPositions[i];
-              cubes.push({
-                type: 'cube',
-                x: pos.x,
-                y: pos.y,
-                side: side,
-                value: -1
-              });
+              cubes.push({ type: 'cube', x: pos.x, y: pos.y, side: side, value: -1 });
             }
             
             for (let i = keepCount; i < origAbsValue; i++) {
@@ -569,7 +709,6 @@
           }
         }
         
-        // Create animation pairs
         let pairCount = min(posToRemove.length, negToRemove.length);
         for (let i = 0; i < pairCount; i++) {
           let p = posToRemove[i];
@@ -584,7 +723,6 @@
       }
     }
     
-    // Get positions for individual cubes within a block
     function getBlockPositions(x, y, absValue) {
       let positions = [];
       let size = 22;
@@ -606,12 +744,38 @@
       return positions;
     }
     
+    function splitBlockIntoIndividualCubes(cube, side) {
+      let absVal = Math.abs(cube.value);
+      if (absVal === 1) return; // Already individual
+      
+      let positions = getBlockPositions(cube.x, cube.y, absVal);
+      let unitValue = cube.value > 0 ? 1 : -1;
+      
+      // Remove original block
+      let idx = cubes.indexOf(cube);
+      if (idx > -1) cubes.splice(idx, 1);
+      
+      // Add individual cubes
+      for (let pos of positions) {
+        cubes.push({ 
+          type: 'cube', 
+          x: pos.x, 
+          y: pos.y, 
+          side: side, 
+          value: unitValue,
+          solvePaired: cube.solvePaired,
+          pairId: cube.pairId
+        });
+      }
+    }
+    
     function finishZeroOut() {
-      // Remove cubes marked for zeroing
       cubes = cubes.filter(c => !c.zeroingOut);
       zeroOutAnimating = false;
       zeroOutPairs = [];
       recalcSides();
+      
+      equationBalanced = true;
       
       if (phase === 'solve') updateSolveStep();
     }
@@ -631,9 +795,29 @@
     
     function updateAnimations() {
       cursorBlink++;
+      
+      if (showWrongAnswer) {
+        if (xValue !== null) {
+          let leftVal = leftSide.cups * xValue + leftSide.positiveCubes + leftSide.negativeCubes;
+          let rightVal = rightSide.cups * xValue + rightSide.positiveCubes + rightSide.negativeCubes;
+          if (leftVal > rightVal) {
+            balanceTiltTarget = 1;
+          } else if (rightVal > leftVal) {
+            balanceTiltTarget = -1;
+          } else {
+            balanceTiltTarget = 0;
+          }
+        }
+      } else {
+        balanceTiltTarget = 0;
+      }
+      
+      balanceTilt += (balanceTiltTarget - balanceTilt) * 0.15;
+      if (abs(balanceTilt - balanceTiltTarget) < 0.01) balanceTilt = balanceTiltTarget;
+      
       if (showWrongAnswer) {
         wrongAnswerTimer++;
-        if (wrongAnswerTimer > 60) {
+        if (wrongAnswerTimer > 90) {
           showWrongAnswer = false;
           wrongAnswerTimer = 0;
         }
@@ -667,19 +851,46 @@
     function mousePressed() {
       let mx = mouseX, my = mouseY;
       
-      if (my > TABS_Y && my < TABS_Y + 32) {
-        if (mx > 25 && mx < 125 && mode !== 'challenge') { mode = 'challenge'; generateNewProblem(); return; }
-        if (mx > 135 && mx < 275 && mode !== 'build') { mode = 'build'; generateNewProblem(); return; }
+      // Close dropdown if clicking elsewhere
+      if (dropdownOpen) {
+        let dbX = 25, dbW = 130, itemH = 28;
+        let startY = DROPDOWN_Y + 28;
+        let dropdownH = questionTypes.length * itemH;
+        
+        if (mx > dbX && mx < dbX + dbW && my > startY && my < startY + dropdownH) {
+          let clickedIndex = floor((my - startY) / itemH);
+          if (clickedIndex >= 0 && clickedIndex < questionTypes.length) {
+            questionType = questionTypes[clickedIndex];
+            generateNewProblem();
+          }
+        }
+        dropdownOpen = false;
+        return;
       }
       
-      if (mx > 798 && mx < 862 && my > SOURCE_Y - 18 && my < SOURCE_Y + 18) { clearWithFade(); return; }
+      if (my > TABS_Y && my < TABS_Y + 32) {
+        if (mx > 25 && mx < 125 && mode !== 'challenge') { mode = 'challenge'; generateNewProblem(); return; }
+        if (mx > 165 && mx < 305 && mode !== 'build') { mode = 'build'; generateNewProblem(); return; }
+        if (mx > 630 && mx < 750) { generateNewProblem(); return; }
+      }
+      
+      // Dropdown button
+      if (mode === 'challenge' && mx > 25 && mx < 155 && my > DROPDOWN_Y && my < DROPDOWN_Y + 24) {
+        dropdownOpen = !dropdownOpen;
+        return;
+      }
+      
+      // Clear button
+      if (mx > 785 && mx < 855 && my > SOURCE_Y - 16 && my < SOURCE_Y + 16) {
+        clearBalance(); return;
+      }
       
       if (phase === 'solved' && mode === 'challenge' && mx > 685 && mx < 815 && my > BUTTON_Y - 22 && my < BUTTON_Y + 22) {
         generateNewProblem(); return;
       }
       
       if (phase === 'solve' && xValue !== null) {
-        let qX = 450 + 75, qY = BUTTON_Y;
+        let qX = 450 + 95, qY = BUTTON_Y;
         if (dist(mx, my, qX, qY) < 20) { checkAnswer(); return; }
       }
       
@@ -700,6 +911,37 @@
         }
       }
       
+      if ((phase === 'solve' || phase === 'solved') && xValue !== null && xValue !== 0) {
+        for (let cup of cups) {
+          let cubePositions = getCubesInCupPositions(cup);
+          for (let pos of cubePositions) {
+            if (dist(mx, my, pos.x, pos.y) < pos.size / 2 + 4) {
+              let newCubeValue = xValue > 0 ? 1 : -1;
+              selectedElement = { 
+                type: 'cube', 
+                x: mx, 
+                y: my, 
+                side: null, 
+                value: newCubeValue, 
+                isNew: true,
+                fromCup: true 
+              };
+              cubes.push(selectedElement);
+              dragOffsetX = 0;
+              dragOffsetY = 0;
+              
+              if (xValue > 0) xValue--;
+              else xValue++;
+              if (xValue === 0) xValue = null;
+              
+              equationBalanced = false;
+              
+              return;
+            }
+          }
+        }
+      }
+      
       for (let cup of cups) {
         if (dist(mx, my, cup.x, cup.y) < 42) {
           selectedElement = cup;
@@ -707,6 +949,7 @@
           return;
         }
       }
+      
       for (let cube of cubes) {
         let hitR = getCubeRadius(cube.value);
         if (dist(mx, my, cube.x, cube.y) < hitR) {
@@ -716,33 +959,33 @@
         }
       }
       
-      // Source elements
+      // Source elements - new order: cup | -9, -3, -1, +1, +3, +9
       if (dist(mx, my, 70, SOURCE_Y) < 38) {
         selectedElement = { type: 'cup', x: mx, y: my, side: null, isNew: true };
         cups.push(selectedElement); return;
       }
-      if (dist(mx, my, 150, SOURCE_Y) < 22) {
-        selectedElement = { type: 'cube', x: mx, y: my, side: null, value: 1, isNew: true };
+      if (dist(mx, my, 200, SOURCE_Y) < 50) {
+        selectedElement = { type: 'cube', x: mx, y: my, side: null, value: -9, isNew: true };
         cubes.push(selectedElement); return;
       }
-      if (dist(mx, my, 240, SOURCE_Y) < 42) {
-        selectedElement = { type: 'cube', x: mx, y: my, side: null, value: 3, isNew: true };
-        cubes.push(selectedElement); return;
-      }
-      if (dist(mx, my, 360, SOURCE_Y) < 50) {
-        selectedElement = { type: 'cube', x: mx, y: my, side: null, value: 9, isNew: true };
-        cubes.push(selectedElement); return;
-      }
-      if (dist(mx, my, 500, SOURCE_Y) < 22) {
-        selectedElement = { type: 'cube', x: mx, y: my, side: null, value: -1, isNew: true };
-        cubes.push(selectedElement); return;
-      }
-      if (dist(mx, my, 590, SOURCE_Y) < 42) {
+      if (dist(mx, my, 310, SOURCE_Y) < 42) {
         selectedElement = { type: 'cube', x: mx, y: my, side: null, value: -3, isNew: true };
         cubes.push(selectedElement); return;
       }
-      if (dist(mx, my, 710, SOURCE_Y) < 50) {
-        selectedElement = { type: 'cube', x: mx, y: my, side: null, value: -9, isNew: true };
+      if (dist(mx, my, 400, SOURCE_Y) < 22) {
+        selectedElement = { type: 'cube', x: mx, y: my, side: null, value: -1, isNew: true };
+        cubes.push(selectedElement); return;
+      }
+      if (dist(mx, my, 500, SOURCE_Y) < 22) {
+        selectedElement = { type: 'cube', x: mx, y: my, side: null, value: 1, isNew: true };
+        cubes.push(selectedElement); return;
+      }
+      if (dist(mx, my, 590, SOURCE_Y) < 42) {
+        selectedElement = { type: 'cube', x: mx, y: my, side: null, value: 3, isNew: true };
+        cubes.push(selectedElement); return;
+      }
+      if (dist(mx, my, 700, SOURCE_Y) < 50) {
+        selectedElement = { type: 'cube', x: mx, y: my, side: null, value: 9, isNew: true };
         cubes.push(selectedElement); return;
       }
     }
@@ -763,7 +1006,6 @@
       let onLeft = elem.x > 50 && elem.x < 415;
       let onRight = elem.x > 485 && elem.x < 850;
       
-      // Check drop in cup (for x value)
       if (elem.type === 'cube') {
         let cup = findCupAt(elem.x, elem.y);
         if (cup) {
@@ -771,6 +1013,9 @@
           else xValue += elem.value;
           let idx = cubes.indexOf(elem);
           if (idx > -1) cubes.splice(idx, 1);
+          
+          equationBalanced = false;
+          
           return;
         }
       }
@@ -778,7 +1023,6 @@
       if (onBalance && (onLeft || onRight)) {
         let newSide = onLeft ? 'left' : 'right';
         
-        // Cup placement - check exclusion zones
         if (elem.type === 'cup') {
           if (!canPlaceCupAt(elem.x, elem.y)) {
             let idx = cups.indexOf(elem);
@@ -788,10 +1032,9 @@
           }
         }
         
-        // Solve mode: new elements appear on BOTH sides
         if (phase === 'solve' && elem.isNew) {
           elem.side = newSide; elem.isNew = false;
-          elem.solvePaired = true; // mark as paired
+          elem.solvePaired = true;
           let mirrorSide = newSide === 'left' ? 'right' : 'left';
           let mirrorX = newSide === 'left' ? elem.x + 440 : elem.x - 440;
           let mirror;
@@ -801,19 +1044,63 @@
           } else {
             mirror = { type: 'cube', x: mirrorX, y: elem.y, side: mirrorSide, value: elem.value, solvePaired: true, pairId: elem };
             cubes.push(mirror);
+            // Split both blocks into individual cubes
+            if (Math.abs(elem.value) > 1) {
+              splitBlockIntoIndividualCubes(elem, newSide);
+              splitBlockIntoIndividualCubes(mirror, mirrorSide);
+            }
           }
           elem.pairId = mirror;
           recalcSides(); updateSolveStep();
+          
+          equationBalanced = true;
+          
           return;
         }
         
         elem.side = newSide; elem.isNew = false;
+        
+        // Split blocks into individual cubes when placed on balance
+        if (elem.type === 'cube' && Math.abs(elem.value) > 1) {
+          splitBlockIntoIndividualCubes(elem, newSide);
+        }
+        
         recalcSides(); checkSetup();
       } else {
-        // Dragged OFF balance - remove element
-        // In solve mode, also remove the paired element
-        if (phase === 'solve' && elem.solvePaired && elem.pairId) {
-          // Remove the mirror element too
+        // Element being removed from balance
+        let elemSide = elem.side;
+        let otherSide = elemSide === 'left' ? 'right' : 'left';
+        
+        // In challenge mode solve phase, mirror the removal to the other side
+        if (phase === 'solve' && mode === 'challenge' && elemSide) {
+          if (elem.solvePaired && elem.pairId) {
+            // Already paired - remove the pair
+            if (elem.type === 'cup') {
+              let idx = cups.indexOf(elem.pairId);
+              if (idx > -1) cups.splice(idx, 1);
+            } else {
+              let idx = cubes.indexOf(elem.pairId);
+              if (idx > -1) cubes.splice(idx, 1);
+            }
+          } else {
+            // Not paired - find and remove matching element from other side
+            if (elem.type === 'cup') {
+              let otherCup = cups.find(c => c.side === otherSide && c !== elem);
+              if (otherCup) {
+                let idx = cups.indexOf(otherCup);
+                if (idx > -1) cups.splice(idx, 1);
+              }
+            } else {
+              // Find a cube with same value on other side
+              let otherCube = cubes.find(c => c.side === otherSide && c.value === elem.value && c !== elem);
+              if (otherCube) {
+                let idx = cubes.indexOf(otherCube);
+                if (idx > -1) cubes.splice(idx, 1);
+              }
+            }
+          }
+        } else if (phase === 'solve' && elem.solvePaired && elem.pairId) {
+          // Build mode or non-challenge: just remove paired element
           if (elem.type === 'cup') {
             let idx = cups.indexOf(elem.pairId);
             if (idx > -1) cups.splice(idx, 1);
@@ -823,6 +1110,7 @@
           }
         }
         
+        // Remove the dragged element itself
         if (elem.type === 'cup') {
           let idx = cups.indexOf(elem);
           if (idx > -1) { fadingElements.push({ ...elem, alpha: 255 }); cups.splice(idx, 1); }
@@ -832,7 +1120,10 @@
         }
         recalcSides(); checkSetup();
         
-        if (phase === 'solve') updateSolveStep();
+        if (phase === 'solve') {
+          updateSolveStep();
+          equationBalanced = true; // Mirrored removal keeps balance
+        }
       }
     }
     
@@ -844,15 +1135,34 @@
     function mouseMoved() {
       let canSolve = (mode === 'challenge' && leftMatch && rightMatch) || (mode === 'build' && hasContent());
       solveButtonHover = (phase === 'build' && canSolve && mouseX > 380 && mouseX < 520 && mouseY > BUTTON_Y - 24 && mouseY < BUTTON_Y + 24);
-      clearButtonHover = (mouseX > 798 && mouseX < 862 && mouseY > SOURCE_Y - 18 && mouseY < SOURCE_Y + 18);
       challengeTabHover = (mouseY > TABS_Y && mouseY < TABS_Y + 32 && mouseX > 25 && mouseX < 125);
-      buildTabHover = (mouseY > TABS_Y && mouseY < TABS_Y + 32 && mouseX > 135 && mouseX < 275);
+      buildTabHover = (mouseY > TABS_Y && mouseY < TABS_Y + 32 && mouseX > 165 && mouseX < 305);
+      newQuestionHover = (mouseY > TABS_Y && mouseY < TABS_Y + 32 && mouseX > 630 && mouseX < 750);
       nextButtonHover = (phase === 'solved' && mode === 'challenge' && mouseX > 685 && mouseX < 815 && mouseY > BUTTON_Y - 22 && mouseY < BUTTON_Y + 22);
       let hasZero = (leftSide.positiveCubes > 0 && leftSide.negativeCubes < 0) || (rightSide.positiveCubes > 0 && rightSide.negativeCubes < 0);
       zeroOutHover = (hasZero && mouseX > 400 && mouseX < 500 && mouseY > BALANCE_BEAM_Y - 44 && mouseY < BALANCE_BEAM_Y - 16);
       
+      // Clear button hover
+      clearButtonHover = (mouseX > 785 && mouseX < 855 && mouseY > SOURCE_Y - 16 && mouseY < SOURCE_Y + 16);
+      
+      // Dropdown button hover
+      dropdownButtonHover = (mode === 'challenge' && mouseX > 25 && mouseX < 155 && mouseY > DROPDOWN_Y && mouseY < DROPDOWN_Y + 24);
+      
+      // Dropdown hover
+      if (dropdownOpen && mode === 'challenge') {
+        let dbX = 25, dbW = 130, itemH = 28;
+        let startY = DROPDOWN_Y + 28;
+        if (mouseX > dbX && mouseX < dbX + dbW && mouseY > startY && mouseY < startY + questionTypes.length * itemH) {
+          dropdownHoverIndex = floor((mouseY - startY) / itemH);
+        } else {
+          dropdownHoverIndex = -1;
+        }
+      } else {
+        dropdownHoverIndex = -1;
+      }
+      
       if (phase === 'solve') {
-        let qX = 450 + 75, qY = BUTTON_Y;
+        let qX = 450 + 95, qY = BUTTON_Y;
         checkHover = dist(mouseX, mouseY, qX, qY) < 20;
       } else checkHover = false;
     }
@@ -867,11 +1177,14 @@
           if (xValue === null) xValue = d;
           else if (xValue >= 0) { xValue = xValue * 10 + d; if (xValue > 99) xValue = d; }
           else { xValue = xValue * 10 - d; if (xValue < -99) xValue = -d; }
+          
+          equationBalanced = false;
         } else if (keyCode === BACKSPACE) {
           if (xValue !== null) {
             if (Math.abs(xValue) < 10) xValue = null;
             else xValue = floor(xValue / 10);
           }
+          equationBalanced = false;
         } else if (keyCode === ENTER || keyCode === RETURN) {
           if (xValue !== null) checkAnswer();
         }
@@ -885,6 +1198,7 @@
         if (xValue === targetSolution) {
           solveSteps.push({ left: 'x', right: '' + targetSolution });
           phase = 'solved';
+          equationBalanced = true;
         } else {
           showWrongAnswer = true;
           wrongAnswerTimer = 0;
@@ -895,6 +1209,7 @@
         if (l === r) {
           solveSteps.push({ left: 'x', right: '' + xValue });
           phase = 'solved';
+          equationBalanced = true;
         } else {
           showWrongAnswer = true;
           wrongAnswerTimer = 0;
@@ -923,24 +1238,13 @@
     function startSolveMode() {
       phase = 'solve'; solveSteps = []; xValue = null; xInputFocused = true;
       showWrongAnswer = false;
+      equationBalanced = true;
     }
     
     function updateSolveStep() {
       let l = buildSideEq(leftSide), r = buildSideEq(rightSide);
       solveSteps.push({ left: l, right: r });
       if (solveSteps.length > 4) solveSteps.shift();
-    }
-
-    function clearWithFade() {
-      for (let cup of cups) fadingElements.push({ ...cup, alpha: 255 });
-      cups = []; cubes = [];
-      leftSide = { cups: 0, positiveCubes: 0, negativeCubes: 0 };
-      rightSide = { cups: 0, positiveCubes: 0, negativeCubes: 0 };
-      leftMatch = false; rightMatch = false;
-      xValue = null; solveSteps = [];
-      phase = 'build'; xInputFocused = false;
-      showWrongAnswer = false;
-      if (mode === 'challenge') setTimeout(generateNewProblem, 250);
     }
 
     function touchStarted() { mousePressed(); return false; }
