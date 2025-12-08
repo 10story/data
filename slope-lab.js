@@ -20,7 +20,7 @@ window.slopeLabData = [
         "heading": "Download All Printables",
         "strong": false,
         "membership": 0,
-        "url": "https://www.algebrastudio.org/s/Slope-Lab-1-Printables.pdf",
+        "url": "https://www.algebrastudio.org/s/Slope-Lab-1-Printables-7nb8.pdf",
         "scissors": null,
         "tape": null,
         "items": []
@@ -139,7 +139,7 @@ window.slopeLabData = [
         "heading": "Download All Printables",
         "strong": false,
         "membership": 0,
-        "url": "https://www.algebrastudio.org/s/Slope-Lab-2-Printables-8kbp.pdf",
+        "url": "https://www.algebrastudio.org/s/Slope-Lab-2-Printables.pdf",
         "scissors": null,
         "tape": null,
         "items": []
