@@ -128,7 +128,12 @@ window.slopeLabData = [
         "name": "Timer"
       }
     ],
-    "videos": [],
+    "videos": [
+      {
+        "name": "Calculating Average",
+        "wistiaId": "k2epdmfnxk"
+      }
+    ],
     "pdfSections": [
       {
         "heading": "Download All Printables",
@@ -155,7 +160,8 @@ window.slopeLabData = [
       },
       {
         "slide": 4,
-        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/a452f475-c4e4-4ea0-a6ed-52b707a801a6/Algebra+Studio+-+Slope+Lab+2.004.png?format=1000w"
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/a452f475-c4e4-4ea0-a6ed-52b707a801a6/Algebra+Studio+-+Slope+Lab+2.004.png?format=1000w",
+        "videoId": "k2epdmfnxk"
       },
       {
         "slide": 5,
