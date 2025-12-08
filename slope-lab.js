@@ -112,5 +112,103 @@ window.slopeLabData = [
         "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/33a39b7b-0c55-4569-9cce-0122968e65fd/Algebra+Studio+-+Slope+Lab+Lesson+1.021.png"
       }
     ]
+  },
+  {
+    "lesson": 2,
+    "lessonName": "How Far Does It Usually Go?",
+    "prints": 1,
+    "materials": 1,
+    "controls": [
+      {
+        "type": "Slides",
+        "name": "Lesson 2: Slides"
+      },
+      {
+        "type": "Timer",
+        "name": "Timer"
+      }
+    ],
+    "videos": [],
+    "pdfSections": [
+      {
+        "heading": "Download All Printables",
+        "strong": false,
+        "membership": 0,
+        "url": "https://www.algebrastudio.org/s/Slope-Lab-2-Printables.pdf",
+        "scissors": null,
+        "tape": null,
+        "items": []
+      }
+    ],
+    "slides": [
+      {
+        "slide": 1,
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/e3e45fb9-822d-4118-ac2d-6e76fd08379c/Algebra+Studio+-+Slope+Lab+2.001.png?format=1000w"
+      },
+      {
+        "slide": 2,
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/f1279954-776b-44aa-825e-ab96e7a987dd/Algebra+Studio+-+Slope+Lab+2.002.png?format=1000w"
+      },
+      {
+        "slide": 3,
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/57f6e4f8-a8af-4874-bbc8-8c0c4c9a30c3/Algebra+Studio+-+Slope+Lab+2.003.png?format=1000w"
+      },
+      {
+        "slide": 4,
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/a452f475-c4e4-4ea0-a6ed-52b707a801a6/Algebra+Studio+-+Slope+Lab+2.004.png?format=1000w"
+      },
+      {
+        "slide": 5,
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/a23b7ef0-e514-4329-8098-ede0ab64893d/Algebra+Studio+-+Slope+Lab+2.005.png?format=1000w"
+      },
+      {
+        "slide": 6,
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/b4e0d1ee-bfb1-4012-b853-747a3c752817/Algebra+Studio+-+Slope+Lab+2.006.png?format=1000w"
+      },
+      {
+        "slide": 7,
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/8a5619e7-9db5-43e3-b6fe-c49bc82a9a9d/Algebra+Studio+-+Slope+Lab+2.007.png?format=1000w"
+      },
+      {
+        "slide": 8,
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/ae2d3dad-11f3-48f8-980f-b7bbaa41fecb/Algebra+Studio+-+Slope+Lab+2.008.png?format=1000w"
+      },
+      {
+        "slide": 9,
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/590e0343-1e74-4f38-b454-15d290e33c1b/Algebra+Studio+-+Slope+Lab+2.009.png?format=1000w"
+      },
+      {
+        "slide": 10,
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/92028880-fab6-4be2-a5d7-067c2ece2646/Algebra+Studio+-+Slope+Lab+2.010.png?format=1000w"
+      },
+      {
+        "slide": 11,
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/09957588-02b5-40cf-8e8b-6ed3a0acd607/Algebra+Studio+-+Slope+Lab+2.011.png?format=1000w"
+      },
+      {
+        "slide": 12,
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/d7019e6d-9281-40bc-97fc-82ed0ba8466e/Algebra+Studio+-+Slope+Lab+2.012.png?format=1000w"
+      },
+      {
+        "slide": 13,
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/2d4c005b-5d29-41ae-96b3-db26fc84a9e4/Algebra+Studio+-+Slope+Lab+2.013.png?format=1000w"
+      },
+      {
+        "slide": 14,
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/c18174f6-81ee-4dd3-afc0-67d66432c008/Algebra+Studio+-+Slope+Lab+2.014.png?format=1000w"
+      },
+      {
+        "slide": 15,
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/10d89a96-26e6-49e6-a47b-4f4fc829e215/Algebra+Studio+-+Slope+Lab+2.015.png?format=1000w"
+      },
+      {
+        "slide": 16,
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/88874f5e-f47f-4a88-b062-e357b4eaf78f/Algebra+Studio+-+Slope+Lab+2.016.png?format=1000w"
+      },
+      {
+        "slide": 17,
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/96364195-436f-44aa-9139-52d74328f4e7/Algebra+Studio+-+Slope+Lab+2.017.png?format=1000w"
+      }
+    ]
   }
 ];
