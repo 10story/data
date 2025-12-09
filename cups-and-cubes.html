@@ -30,6 +30,8 @@
     let mirrorElement = null;
     let dragOffsetX = 0, dragOffsetY = 0;
     let mode = 'challenge';
+    let signMode = 'positive'; // 'positive' or 'negative'
+    let signToggleHover = false;
     let questionType = '2-step';
     let questionTypes = ['1-step', '1-step with ( - )', '2-step', '2-step with ( - )', 'Distributive'];
     let dropdownOpen = false;
@@ -41,9 +43,9 @@
     let phase = 'build';
     let leftMatch = false, rightMatch = false;
     let xValue = null;
+    let xInputNegative = false;
     let solveSteps = [];
     let xInputFocused = false;
-    let xInputNegative = false;
     let cursorBlink = 0;
     let showWrongAnswer = false;
     let wrongAnswerTimer = 0;
@@ -172,7 +174,7 @@
 
     function drawModeTabs() {
       let tabH = 32;
-      let challengeX = LEFT_EDGE - 25, challengeW = 100;
+      let challengeX = LEFT_EDGE - 17, challengeW = 100;
       if (mode === 'challenge') {
         fill(100, 60, 160); noStroke();
         rect(challengeX, TABS_Y, challengeW, tabH, 16); fill(255);
@@ -187,7 +189,7 @@
       
       // Dropdown button under Challenge (only in challenge mode)
       if (mode === 'challenge') {
-        let dbX = LEFT_EDGE - 25, dbW = 130, dbH = 24;
+        let dbX = LEFT_EDGE - 17, dbW = 130, dbH = 24;
         fill(dropdownButtonHover || dropdownOpen ? 235 : 245);
         stroke(200); strokeWeight(1);
         rect(dbX, DROPDOWN_Y, dbW, dbH, 12);
@@ -208,8 +210,8 @@
       noStroke(); textSize(13);
       text('Build an Equation', buildX + buildW/2, TABS_Y + tabH/2);
       
-      // New Question button
-      let nqX = 620, nqW = 115;
+      // New Question button - symmetric with Challenge (41px from edge)
+      let nqX = 744, nqW = 115;
       fill(newQuestionHover ? 240 : 250);
       stroke(220); strokeWeight(1);
       rect(nqX, TABS_Y, nqW, tabH, 16);
@@ -220,7 +222,7 @@
     function drawDropdown() {
       if (!dropdownOpen || mode !== 'challenge') return;
       
-      let dbX = LEFT_EDGE - 25, dbW = 130, itemH = 28;
+      let dbX = LEFT_EDGE - 17, dbW = 130, itemH = 28;
       let startY = DROPDOWN_Y + 28;
       
       fill(255); stroke(200); strokeWeight(1);
@@ -393,7 +395,6 @@
       let parts = [];
       if (side.cups > 0) {
         if (substituteX !== null) {
-          // Show substituted form: 2(4) or (4) for 1 cup
           let xStr = '(' + substituteX + ')';
           parts.push(side.cups === 1 ? xStr : side.cups + xStr);
         } else {
@@ -608,28 +609,52 @@
       fill(150); noStroke(); textSize(10); textFont('Poppins'); textAlign(CENTER);
       text('x', LEFT_EDGE + 20, SOURCE_Y + 38);
       
-      // Vertical separator
+      // Vertical separator after cup
       stroke(210); strokeWeight(1);
       line(LEFT_EDGE + 70, SOURCE_Y - 30, LEFT_EDGE + 70, SOURCE_Y + 30);
       
-      // Order: -9, -3, -1, +1, +3, +9 - centered symmetrically
+      // Sign toggle button
+      let toggleX = LEFT_EDGE + 130;
+      let toggleW = 70, toggleH = 36;
+      
+      // Draw toggle background
+      if (signMode === 'positive') {
+        fill(signToggleHover ? color(0, 150, 0) : color(0, 130, 0));
+      } else {
+        fill(signToggleHover ? 80 : 60);
+      }
+      noStroke();
+      rect(toggleX - toggleW/2, SOURCE_Y - toggleH/2, toggleW, toggleH, 18);
+      
+      // Draw toggle label
+      fill(255); textSize(16); textFont('Poppins'); textAlign(CENTER, CENTER);
+      if (signMode === 'positive') {
+        text('+ pos', toggleX, SOURCE_Y);
+      } else {
+        text('− neg', toggleX, SOURCE_Y);
+      }
+      
+      // Cubes - always show 1, 3, 9 but color depends on mode
+      // 3-cube centered at CENTER_X
       let srcY = SOURCE_Y - 5;
-      let cx = CENTER_X;
+      let cubeCol = signMode === 'positive' ? 'green' : 'black';
+      let labelCol = signMode === 'positive' ? color(34, 139, 34) : color(60);
+      let sign = signMode === 'positive' ? '+' : '−';
       
-      // ±1 closest to center
-      drawSingleCube(cx - 40, srcY, 20, 'black'); fill(60); noStroke(); textSize(10); text('-1', cx - 40, srcY + 28);
-      drawSingleCube(cx + 40, srcY, 20, 'green'); fill(34, 139, 34); text('+1', cx + 40, srcY + 28);
+      let cx = CENTER_X; // 3-cube at center
       
-      // ±3 next
-      drawCubeUnit(cx - 130, srcY, -3); fill(60); text('-3', cx - 130, srcY + 38);
-      drawCubeUnit(cx + 130, srcY, 3); fill(34, 139, 34); text('+3', cx + 130, srcY + 38);
+      drawSingleCube(cx - 120, srcY, 20, cubeCol); 
+      fill(labelCol); noStroke(); textSize(10); 
+      text(sign + '1', cx - 120, srcY + 28);
       
-      // ±9 outermost
-      drawCubeUnit(cx - 240, srcY, -9); fill(60); text('-9', cx - 240, srcY + 48);
-      drawCubeUnit(cx + 240, srcY, 9); fill(34, 139, 34); text('+9', cx + 240, srcY + 48);
+      drawCubeUnit(cx, srcY, signMode === 'positive' ? 3 : -3); 
+      fill(labelCol); text(sign + '3', cx, srcY + 38);
+      
+      drawCubeUnit(cx + 140, srcY, signMode === 'positive' ? 9 : -9); 
+      fill(labelCol); text(sign + '9', cx + 140, srcY + 48);
       
       // Clear button at lower right
-      let clearX = RIGHT_EDGE - 30, clearY = srcY;
+      let clearX = RIGHT_EDGE - 30, clearY = SOURCE_Y;
       fill(clearButtonHover ? 240 : 250);
       stroke(220); strokeWeight(1);
       rect(clearX - 32, clearY - 14, 64, 28, 14);
@@ -898,7 +923,7 @@
       
       // Close dropdown if clicking elsewhere
       if (dropdownOpen) {
-        let dbX = LEFT_EDGE - 25, dbW = 130, itemH = 28;
+        let dbX = LEFT_EDGE - 17, dbW = 130, itemH = 28;
         let startY = DROPDOWN_Y + 28;
         let dropdownH = questionTypes.length * itemH;
         
@@ -914,14 +939,22 @@
       }
       
       if (my > TABS_Y && my < TABS_Y + 32) {
-        if (mx > LEFT_EDGE - 25 && mx < LEFT_EDGE + 75 && mode !== 'challenge') { mode = 'challenge'; generateNewProblem(); return; }
+        if (mx > LEFT_EDGE - 17 && mx < LEFT_EDGE + 83 && mode !== 'challenge') { mode = 'challenge'; generateNewProblem(); return; }
         if (mx > 165 && mx < 305 && mode !== 'build') { mode = 'build'; generateNewProblem(); return; }
-        if (mx > 620 && mx < 735) { generateNewProblem(); return; }
+        if (mx > 744 && mx < 859) { generateNewProblem(); return; }
       }
       
       // Dropdown button
-      if (mode === 'challenge' && mx > LEFT_EDGE - 25 && mx < LEFT_EDGE + 105 && my > DROPDOWN_Y && my < DROPDOWN_Y + 24) {
+      if (mode === 'challenge' && mx > LEFT_EDGE - 17 && mx < LEFT_EDGE + 113 && my > DROPDOWN_Y && my < DROPDOWN_Y + 24) {
         dropdownOpen = !dropdownOpen;
+        return;
+      }
+      
+      // Sign toggle button
+      let toggleX = LEFT_EDGE + 130;
+      let toggleW = 70, toggleH = 36;
+      if (mx > toggleX - toggleW/2 && mx < toggleX + toggleW/2 && my > SOURCE_Y - toggleH/2 && my < SOURCE_Y + toggleH/2) {
+        signMode = signMode === 'positive' ? 'negative' : 'positive';
         return;
       }
       
@@ -992,13 +1025,21 @@
           selectedElement = cup;
           dragOffsetX = cup.x - mx; dragOffsetY = cup.y - my;
           
-          // Find mirror element during solve phase
+          // Find matching element on other side during solve phase
           if (phase === 'solve' && mode === 'challenge' && cup.side) {
             let otherSide = cup.side === 'left' ? 'right' : 'left';
+            // Try to find existing pair or match
             if (cup.solvePaired && cup.pairId) {
               mirrorElement = cup.pairId;
             } else {
-              mirrorElement = cups.find(c => c.side === otherSide && c !== cup);
+              mirrorElement = cups.find(c => c.side === otherSide && c !== cup && !c.sprouted);
+              if (mirrorElement) {
+                // Link them as a pair
+                cup.solvePaired = true;
+                cup.pairId = mirrorElement;
+                mirrorElement.solvePaired = true;
+                mirrorElement.pairId = cup;
+              }
             }
           } else {
             mirrorElement = null;
@@ -1013,13 +1054,21 @@
           selectedElement = cube;
           dragOffsetX = cube.x - mx; dragOffsetY = cube.y - my;
           
-          // Find mirror element during solve phase
+          // Find matching element on other side during solve phase
           if (phase === 'solve' && mode === 'challenge' && cube.side) {
             let otherSide = cube.side === 'left' ? 'right' : 'left';
+            // Try to find existing pair or match with same value
             if (cube.solvePaired && cube.pairId) {
               mirrorElement = cube.pairId;
             } else {
-              mirrorElement = cubes.find(c => c.side === otherSide && c.value === cube.value && c !== cube);
+              mirrorElement = cubes.find(c => c.side === otherSide && c.value === cube.value && c !== cube && !c.sprouted);
+              if (mirrorElement) {
+                // Link them as a pair
+                cube.solvePaired = true;
+                cube.pairId = mirrorElement;
+                mirrorElement.solvePaired = true;
+                mirrorElement.pairId = cube;
+              }
             }
           } else {
             mirrorElement = null;
@@ -1028,37 +1077,33 @@
         }
       }
       
-      // Source elements (centered positions) - no mirror for new elements
+      // Source elements - no mirror for new elements
       mirrorElement = null;
+      
+      // Cup
       if (dist(mx, my, LEFT_EDGE + 20, SOURCE_Y) < 35) {
         selectedElement = { type: 'cup', x: mx, y: my, side: null, isNew: true };
         cups.push(selectedElement); return;
       }
-      // ±9 at cx ± 240
-      if (dist(mx, my, CENTER_X - 240, SOURCE_Y) < 45) {
-        selectedElement = { type: 'cube', x: mx, y: my, side: null, value: -9, isNew: true };
+      
+      // Cubes based on sign mode (3-cube centered at CENTER_X)
+      let cx = CENTER_X;
+      let srcY = SOURCE_Y - 5;
+      let signMult = signMode === 'positive' ? 1 : -1;
+      
+      // 1-cube
+      if (dist(mx, my, cx - 120, srcY) < 20) {
+        selectedElement = { type: 'cube', x: mx, y: my, side: null, value: 1 * signMult, isNew: true };
         cubes.push(selectedElement); return;
       }
-      if (dist(mx, my, CENTER_X + 240, SOURCE_Y) < 45) {
-        selectedElement = { type: 'cube', x: mx, y: my, side: null, value: 9, isNew: true };
+      // 3-cube
+      if (dist(mx, my, cx, srcY) < 40) {
+        selectedElement = { type: 'cube', x: mx, y: my, side: null, value: 3 * signMult, isNew: true };
         cubes.push(selectedElement); return;
       }
-      // ±3 at cx ± 130
-      if (dist(mx, my, CENTER_X - 130, SOURCE_Y) < 40) {
-        selectedElement = { type: 'cube', x: mx, y: my, side: null, value: -3, isNew: true };
-        cubes.push(selectedElement); return;
-      }
-      if (dist(mx, my, CENTER_X + 130, SOURCE_Y) < 40) {
-        selectedElement = { type: 'cube', x: mx, y: my, side: null, value: 3, isNew: true };
-        cubes.push(selectedElement); return;
-      }
-      // ±1 at cx ± 40
-      if (dist(mx, my, CENTER_X - 40, SOURCE_Y) < 20) {
-        selectedElement = { type: 'cube', x: mx, y: my, side: null, value: -1, isNew: true };
-        cubes.push(selectedElement); return;
-      }
-      if (dist(mx, my, CENTER_X + 40, SOURCE_Y) < 20) {
-        selectedElement = { type: 'cube', x: mx, y: my, side: null, value: 1, isNew: true };
+      // 9-cube
+      if (dist(mx, my, cx + 140, srcY) < 45) {
+        selectedElement = { type: 'cube', x: mx, y: my, side: null, value: 9 * signMult, isNew: true };
         cubes.push(selectedElement); return;
       }
     }
@@ -1120,6 +1165,11 @@
           if (!canPlaceCupAt(elem.x, elem.y)) {
             let idx = cups.indexOf(elem);
             if (idx > -1) { fadingElements.push({ ...elem, alpha: 255 }); cups.splice(idx, 1); }
+            // Also remove mirror if we had one
+            if (mirror) {
+              let midx = cups.indexOf(mirror);
+              if (midx > -1) cups.splice(midx, 1);
+            }
             recalcSides(); checkSetup();
             return;
           }
@@ -1150,12 +1200,16 @@
           return;
         }
         
-        // If we had a mirror but are placing back on balance, restore its position
+        // Handle paired element - keep both on balance at new positions
         if (mirror && phase === 'solve') {
-          let mirrorSide = elem.side === 'left' ? 'right' : 'left';
+          let mirrorSide = newSide === 'left' ? 'right' : 'left';
           mirror.x = CENTER_X + (CENTER_X - elem.x);
           mirror.y = elem.y;
           mirror.side = mirrorSide;
+          elem.side = newSide;
+          recalcSides(); updateSolveStep();
+          equationBalanced = true;
+          return;
         }
         
         elem.side = newSide; elem.isNew = false;
@@ -1201,19 +1255,24 @@
     function mouseMoved() {
       let canSolve = (mode === 'challenge' && leftMatch && rightMatch) || (mode === 'build' && hasContent());
       solveButtonHover = (phase === 'build' && canSolve && mouseX > CENTER_X - 70 && mouseX < CENTER_X + 70 && mouseY > BUTTON_Y - 24 && mouseY < BUTTON_Y + 24);
-      challengeTabHover = (mouseY > TABS_Y && mouseY < TABS_Y + 32 && mouseX > LEFT_EDGE - 25 && mouseX < LEFT_EDGE + 75);
+      challengeTabHover = (mouseY > TABS_Y && mouseY < TABS_Y + 32 && mouseX > LEFT_EDGE - 17 && mouseX < LEFT_EDGE + 83);
       buildTabHover = (mouseY > TABS_Y && mouseY < TABS_Y + 32 && mouseX > 165 && mouseX < 305);
-      newQuestionHover = (mouseY > TABS_Y && mouseY < TABS_Y + 32 && mouseX > 620 && mouseX < 735);
+      newQuestionHover = (mouseY > TABS_Y && mouseY < TABS_Y + 32 && mouseX > 744 && mouseX < 859);
       nextButtonHover = (phase === 'solved' && mode === 'challenge' && mouseX > 680 && mouseX < 800 && mouseY > BUTTON_Y - 22 && mouseY < BUTTON_Y + 22);
       let hasZero = (leftSide.positiveCubes > 0 && leftSide.negativeCubes < 0) || (rightSide.positiveCubes > 0 && rightSide.negativeCubes < 0);
       zeroOutHover = (hasZero && mouseX > CENTER_X - 50 && mouseX < CENTER_X + 50 && mouseY > BALANCE_BEAM_Y - 44 && mouseY < BALANCE_BEAM_Y - 16);
       
       clearButtonHover = (mouseX > RIGHT_EDGE - 62 && mouseX < RIGHT_EDGE + 2 && mouseY > SOURCE_Y - 14 && mouseY < SOURCE_Y + 14);
       
-      dropdownButtonHover = (mode === 'challenge' && mouseX > LEFT_EDGE - 25 && mouseX < LEFT_EDGE + 105 && mouseY > DROPDOWN_Y && mouseY < DROPDOWN_Y + 24);
+      dropdownButtonHover = (mode === 'challenge' && mouseX > LEFT_EDGE - 17 && mouseX < LEFT_EDGE + 113 && mouseY > DROPDOWN_Y && mouseY < DROPDOWN_Y + 24);
+      
+      // Sign toggle hover
+      let toggleX = LEFT_EDGE + 130;
+      let toggleW = 70, toggleH = 36;
+      signToggleHover = (mouseX > toggleX - toggleW/2 && mouseX < toggleX + toggleW/2 && mouseY > SOURCE_Y - toggleH/2 && mouseY < SOURCE_Y + toggleH/2);
       
       if (dropdownOpen && mode === 'challenge') {
-        let dbX = LEFT_EDGE - 25, dbW = 130, itemH = 28;
+        let dbX = LEFT_EDGE - 17, dbW = 130, itemH = 28;
         let startY = DROPDOWN_Y + 28;
         if (mouseX > dbX && mouseX < dbX + dbW && mouseY > startY && mouseY < startY + questionTypes.length * itemH) {
           dropdownHoverIndex = floor((mouseY - startY) / itemH);
@@ -1293,12 +1352,13 @@
     }
 
     function recalcSides() {
-      leftSide.cups = cups.filter(c => c.side === 'left').length;
-      leftSide.positiveCubes = cubes.filter(c => c.side === 'left' && c.value > 0).reduce((s, c) => s + c.value, 0);
-      leftSide.negativeCubes = cubes.filter(c => c.side === 'left' && c.value < 0).reduce((s, c) => s + c.value, 0);
-      rightSide.cups = cups.filter(c => c.side === 'right').length;
-      rightSide.positiveCubes = cubes.filter(c => c.side === 'right' && c.value > 0).reduce((s, c) => s + c.value, 0);
-      rightSide.negativeCubes = cubes.filter(c => c.side === 'right' && c.value < 0).reduce((s, c) => s + c.value, 0);
+      // Exclude sprouted (temporary) elements from counting
+      leftSide.cups = cups.filter(c => c.side === 'left' && !c.sprouted).length;
+      leftSide.positiveCubes = cubes.filter(c => c.side === 'left' && c.value > 0 && !c.sprouted).reduce((s, c) => s + c.value, 0);
+      leftSide.negativeCubes = cubes.filter(c => c.side === 'left' && c.value < 0 && !c.sprouted).reduce((s, c) => s + c.value, 0);
+      rightSide.cups = cups.filter(c => c.side === 'right' && !c.sprouted).length;
+      rightSide.positiveCubes = cubes.filter(c => c.side === 'right' && c.value > 0 && !c.sprouted).reduce((s, c) => s + c.value, 0);
+      rightSide.negativeCubes = cubes.filter(c => c.side === 'right' && c.value < 0 && !c.sprouted).reduce((s, c) => s + c.value, 0);
     }
     
     function checkSetup() {
