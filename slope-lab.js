@@ -216,5 +216,117 @@ window.slopeLabData = [
         "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/96364195-436f-44aa-9139-52d74328f4e7/Algebra+Studio+-+Slope+Lab+2.017.png?format=1000w"
       }
     ]
+  },
+  {
+    "lesson": 3,
+    "lessonName": "Display & Predict",
+    "prints": 1,
+    "materials": 1,
+    "controls": [
+      {
+        "type": "Slides",
+        "name": "Lesson 3: Slides"
+      },
+      {
+        "type": "Timer",
+        "name": "Timer"
+      }
+    ],
+    "videos": [
+      {
+        "name": "Making Sense of Data with Graphs",
+        "wistiaId": "u2v9hirih4"
+      }
+    ],
+    "pdfSections": [
+      {
+        "heading": "Download All Printables",
+        "strong": false,
+        "membership": 0,
+        "url": "https://www.algebrastudio.org/s/Slope-Lab-3-Printables.pdf",
+        "scissors": null,
+        "tape": null,
+        "items": []
+      }
+    ],
+    "slides": [
+      {
+        "slide": 1,
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/06e74515-7002-4157-b444-d2356f97154d/Slope+Lab+3+Slides.001.png?format=1000w"
+      },
+      {
+        "slide": 2,
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/bbdc8e02-259b-45a6-bdd2-042f6ca8a700/Slope+Lab+3+Slides.002.png?format=1000w"
+      },
+      {
+        "slide": 3,
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/0c832ad9-54eb-4815-ab3e-1a20133692fc/Slope+Lab+3+Slides.003.png?format=1000w"
+      },
+      {
+        "slide": 4,
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/2926abdf-e93c-40c1-b962-59852e1bf895/Slope+Lab+3+Slides.004.png?format=1000w",
+        "videoId": "u2v9hirih4"
+      },
+      {
+        "slide": 5,
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/e1b140d1-f0f3-4691-8406-729d2bcb012a/Slope+Lab+3+Slides.005.png?format=1000w"
+      },
+      {
+        "slide": 6,
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/fd3d8cbb-f894-4cde-9fe7-3730772f0a61/Slope+Lab+3+Slides.006.png?format=1000w"
+      },
+      {
+        "slide": 7,
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/3aac3e6f-a7c7-453f-bb5a-2166600284a3/Slope+Lab+3+Slides.007.png?format=1000w"
+      },
+      {
+        "slide": 8,
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/f980d629-914b-459b-8574-d27ce9ca6365/Slope+Lab+3+Slides.008.png?format=1000w"
+      },
+      {
+        "slide": 9,
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/bdbb10ff-72cb-4ebd-a69b-980626ddbd1b/Slope+Lab+3+Slides.009.png?format=1000w"
+      },
+      {
+        "slide": 10,
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/73055fca-fc89-4663-9e4e-1b6086b4d71d/Slope+Lab+3+Slides.010.png?format=1000w"
+      },
+      {
+        "slide": 11,
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/9abbcb6b-ac48-42da-a5cc-48dbbef0707c/Slope+Lab+3+Slides.011.png?format=1000w"
+      },
+      {
+        "slide": 12,
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/fef28c6f-f224-40dc-85cb-dc3d6d1ebe8f/Slope+Lab+3+Slides.012.png?format=1000w"
+      },
+      {
+        "slide": 13,
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/17f8073c-5c17-4599-a23b-b80c39e999ce/Slope+Lab+3+Slides.013.png?format=1000w"
+      },
+      {
+        "slide": 14,
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/3d209555-5da3-4188-9dac-711165dc0427/Slope+Lab+3+Slides.014.png?format=1000w"
+      },
+      {
+        "slide": 15,
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/1b4d8ffc-7e68-4111-b137-f7bf6b7d24a2/Slope+Lab+3+Slides.015.png?format=1000w"
+      },
+      {
+        "slide": 16,
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/6e9dd60b-3981-402f-92a6-80f85f393827/Slope+Lab+3+Slides.016.png?format=1000w"
+      },
+      {
+        "slide": 17,
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/e6ec8e4d-4caf-4680-8374-16e988596830/Slope+Lab+3+Slides.017.png?format=1000w"
+      },
+      {
+        "slide": 18,
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/759e8784-4187-4ec6-9c77-65e022eece52/Slope+Lab+3+Slides.018.png?format=1000w"
+      },
+      {
+        "slide": 19,
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/496caae8-e426-4803-b0f4-89b688360ca5/Slope+Lab+3+Slides.019.png?format=1000w"
+      }
+    ]
   }
 ];
