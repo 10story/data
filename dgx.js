@@ -1,7 +1,7 @@
 window.dgxData = [
   {
     "lesson": 1,
-    "lessonName": "Welcome",
+    "lessonName": "Welcome to Mega Mini Games",
     "prints": 1,
     "materials": 1,
     "controls": [
@@ -140,7 +140,7 @@ window.dgxData = [
   },
   {
     "lesson": 2,
-    "lessonName": "Line Up",
+    "lessonName": "Play Line Up",
     "prints": 1,
     "materials": 1,
     "controls": [
@@ -279,7 +279,7 @@ window.dgxData = [
   },
   {
     "lesson": 3,
-    "lessonName": "Launchball",
+    "lessonName": "Play Launchball",
     "prints": 1,
     "materials": 1,
     "controls": [
@@ -441,7 +441,7 @@ window.dgxData = [
   },
   {
     "lesson": 4,
-    "lessonName": "Finish Line",
+    "lessonName": "Play Finish Line",
     "prints": 1,
     "materials": 1,
     "controls": [
@@ -580,7 +580,7 @@ window.dgxData = [
   },
   {
     "lesson": 5,
-    "lessonName": "Game X",
+    "lessonName": "Play Game X",
     "prints": 1,
     "materials": 1,
     "controls": [
@@ -842,7 +842,7 @@ window.dgxData = [
   },
   {
     "lesson": 7,
-    "lessonName": "Make Your Plan",
+    "lessonName": "Make a Plan",
     "prints": 1,
     "materials": 1,
     "controls": [
@@ -955,7 +955,7 @@ window.dgxData = [
   },
   {
     "lesson": 8,
-    "lessonName": "Make Your Game",
+    "lessonName": "Make a Game",
     "prints": 1,
     "materials": 1,
     "controls": [
@@ -1172,7 +1172,7 @@ window.dgxData = [
   },
   {
     "lesson": 10,
-    "lessonName": "Game Expo",
+    "lessonName": "Game Expo!",
     "prints": 1,
     "materials": 1,
     "controls": [
