@@ -38,7 +38,7 @@ window.dgxData = [
     "slides": [
       {
         "slide": 1,
-        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/cf96619a-4ea5-4629-b34e-7f1acad5dd3b/Screenshot+2025-12-22+at+8.02.15%E2%80%AFPM.png?format=1000w",
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/50626d85-a49d-4342-b9e5-08e6e4bc76ba/lesson+1+splash.png?format=1000w",
         "videoId": "piq0nlygaa"
       },
       {
@@ -181,7 +181,7 @@ window.dgxData = [
     "slides": [
       {
         "slide": 1,
-        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/cf96619a-4ea5-4629-b34e-7f1acad5dd3b/Screenshot+2025-12-22+at+8.02.15%E2%80%AFPM.png?format=1000w",
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/9d0349e6-262d-4662-9c02-522d0477f286/lesson+2+splash.png?format=1000w",
         "videoId": "csiuxiofgl"
       },
       {
@@ -328,7 +328,7 @@ window.dgxData = [
     "slides": [
       {
         "slide": 1,
-        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/cf96619a-4ea5-4629-b34e-7f1acad5dd3b/Screenshot+2025-12-22+at+8.02.15%E2%80%AFPM.png?format=1000w",
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/26f849fb-0212-4042-8565-5fe3a0b22476/lesson+3+splash.png?format=1000w",
         "videoId": "8vd1z035e9"
       },
       {
@@ -482,7 +482,7 @@ window.dgxData = [
     "slides": [
       {
         "slide": 1,
-        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/cf96619a-4ea5-4629-b34e-7f1acad5dd3b/Screenshot+2025-12-22+at+8.02.15%E2%80%AFPM.png?format=1000w",
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/651cc44b-ea90-425e-9aa4-206fbeea741d/lesson+4+splash.png?format=1000w",
         "videoId": "inpkbkp8mk"
       },
       {
@@ -625,7 +625,7 @@ window.dgxData = [
     "slides": [
       {
         "slide": 1,
-        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/cf96619a-4ea5-4629-b34e-7f1acad5dd3b/Screenshot+2025-12-22+at+8.02.15%E2%80%AFPM.png?format=1000w",
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/a09f31fa-4629-404e-9725-917e13dafa46/lesson+5+splash.png?format=1000w",
         "videoId": "rfjxviksar"
       },
       {
@@ -770,7 +770,7 @@ window.dgxData = [
     "slides": [
       {
         "slide": 1,
-        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/cf96619a-4ea5-4629-b34e-7f1acad5dd3b/Screenshot+2025-12-22+at+8.02.15%E2%80%AFPM.png?format=1000w",
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/1adaa5a7-6403-4f81-9403-10f770cfc52c/lesson+6+splash.png?format=1000w",
         "videoId": "1udt9escyl"
       },
       {
@@ -883,7 +883,7 @@ window.dgxData = [
     "slides": [
       {
         "slide": 1,
-        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/cf96619a-4ea5-4629-b34e-7f1acad5dd3b/Screenshot+2025-12-22+at+8.02.15%E2%80%AFPM.png?format=1000w",
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/6935d53e-82fa-44e6-a85c-b7068227dc2c/lesson+7+splash.png?format=1000w",
         "videoId": "rnysgf7laj"
       },
       {
@@ -996,7 +996,7 @@ window.dgxData = [
     "slides": [
       {
         "slide": 1,
-        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/cf96619a-4ea5-4629-b34e-7f1acad5dd3b/Screenshot+2025-12-22+at+8.02.15%E2%80%AFPM.png?format=1000w",
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/f6db6d11-01c5-490f-81ce-7ac31ff51223/lesson+8+splash.png?format=1000w",
         "videoId": "zafz352f40"
       },
       {
@@ -1095,7 +1095,7 @@ window.dgxData = [
     "slides": [
       {
         "slide": 1,
-        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/cf96619a-4ea5-4629-b34e-7f1acad5dd3b/Screenshot+2025-12-22+at+8.02.15%E2%80%AFPM.png?format=1000w",
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/e7e12be0-047e-4f67-93be-831a293d3b6e/lesson+9+splash.png?format=1000w",
         "videoId": "49npmr8alh"
       },
       {
@@ -1209,7 +1209,7 @@ window.dgxData = [
     "slides": [
       {
         "slide": 1,
-        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/cf96619a-4ea5-4629-b34e-7f1acad5dd3b/Screenshot+2025-12-22+at+8.02.15%E2%80%AFPM.png?format=1000w",
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/8e3d144a-a3dc-4971-b704-bf7d87ef2645/lesson+10+splash.png?format=1000w",
         "videoId": "nzn5sj58a4"
       },
       {
