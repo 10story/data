@@ -328,5 +328,97 @@ window.slopeLabData = [
         "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/496caae8-e426-4803-b0f4-89b688360ca5/Slope+Lab+3+Slides.019.png?format=1000w"
       }
     ]
+  },
+  {
+    "lesson": 4,
+    "lessonName": "Gravity Racer Challenge",
+    "prints": 1,
+    "materials": 1,
+    "controls": [
+      {
+        "type": "Slides",
+        "name": "Lesson 4: Slides"
+      },
+      {
+        "type": "Timer",
+        "name": "Timer"
+      }
+    ],
+    "videos": [
+      {
+        "name": "Absolute Value",
+        "wistiaId": "aelqpn4gb0"
+      }
+    ],
+    "pdfSections": [
+      {
+        "heading": "Download All Printables",
+        "strong": false,
+        "membership": 0,
+        "url": "https://www.algebrastudio.org/s/4-Printables.pdf",
+        "scissors": null,
+        "tape": null,
+        "items": []
+      }
+    ],
+    "slides": [
+      {
+        "slide": 1,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/74abe482-1855-4d44-a22d-28891928ef0a/slope+lab+4+slides.001.png?content-type=image%2Fpng"
+      },
+      {
+        "slide": 2,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/59529d1e-ab2f-4590-bd0f-5bcfd3df35f7/slope+lab+4+slides.002.png?content-type=image%2Fpng"
+      },
+      {
+        "slide": 3,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/9b62ff99-5424-4e21-ba86-b51bc3b5681f/slope+lab+4+slides.003.png?content-type=image%2Fpng"
+      },
+      {
+        "slide": 4,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/7c7cc237-f182-44b2-855d-15d8c90b3e36/slope+lab+4+slides.004.png?content-type=image%2Fpng",
+        "videoId": "aelqpn4gb0"
+      },
+      {
+        "slide": 5,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/1248ae20-f95f-4487-812d-90d863ac2761/slope+lab+4+slides.005.png?content-type=image%2Fpng"
+      },
+      {
+        "slide": 6,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/5688e747-57f9-4fd1-8428-04f014ef1358/slope+lab+4+slides.006.png?content-type=image%2Fpng"
+      },
+      {
+        "slide": 7,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/a2b847d2-580e-48dc-9ebe-6d0bc938e05f/slope+lab+4+slides.007.png?content-type=image%2Fpng"
+      },
+      {
+        "slide": 8,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/d670ed8f-ca4e-4316-8b49-d0b113f036ce/slope+lab+4+slides.008.png?content-type=image%2Fpng"
+      },
+      {
+        "slide": 9,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/97319645-55d3-46b2-ba28-505017b064f3/slope+lab+4+slides.009.png?content-type=image%2Fpng"
+      },
+      {
+        "slide": 10,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/df2524aa-adf9-4baa-8568-a2087a6f5f39/71+replace.001.png?content-type=image%2Fpng"
+      },
+      {
+        "slide": 11,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/3770c007-28d1-40a3-9045-def1699558a8/slope+lab+4+slides.011.png?content-type=image%2Fpng"
+      },
+      {
+        "slide": 12,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/6ca39d66-5bb5-4cb1-acc8-c9c777d62e03/slope+lab+4+slides.012.png?content-type=image%2Fpng"
+      },
+      {
+        "slide": 13,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/6dc7d92c-17e8-4219-99c3-fe929db1f7df/slope+lab+4+slides.013.png?content-type=image%2Fpng"
+      },
+      {
+        "slide": 14,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/a07ef20c-0979-408c-9ea7-ca01bd395af1/slope+lab+4+slides.014.png?content-type=image%2Fpng"
+      }
+    ]
   }
 ];
