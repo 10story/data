@@ -20,7 +20,7 @@ window.slopeLabData = [
         "heading": "Download All Printables",
         "strong": false,
         "membership": 0,
-        "url": "https://www.algebrastudio.org/s/Slope-Lab-1-Printables-7nb8.pdf",
+        "url": "https://www.algebrastudio.org/s/slope-lab-lesson-1-printables.pdf",
         "scissors": null,
         "tape": null,
         "items": []
@@ -29,87 +29,91 @@ window.slopeLabData = [
     "slides": [
       {
         "slide": 1,
-        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/5f17dfad-3882-4634-b59e-760590c9b1ff/Algebra+Studio+-+Slope+Lab+Lesson+1.001.png"
+        "url": "https://images.squarespace-cdn.com/content/63c8d6e63d254d69ecd76836/a26b0a58-5ccc-4c4d-85b8-8ab021dff064/slope+lab+1a.001.png?content-type=image%2Fpng"
       },
       {
         "slide": 2,
-        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/220d8afa-c7c4-4798-8a64-01827f1f113b/Algebra+Studio+-+Slope+Lab+Lesson+1.002.png"
+        "url": "https://images.squarespace-cdn.com/content/63c8d6e63d254d69ecd76836/1d9a6178-9e7b-4755-a29e-7573a993d7a0/slope+lab+1a.002.png?content-type=image%2Fpng"
       },
       {
         "slide": 3,
-        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/38d3c354-5b84-452a-a295-46d9d853106e/Algebra+Studio+-+Slope+Lab+Lesson+1.003.png"
+        "url": "https://images.squarespace-cdn.com/content/63c8d6e63d254d69ecd76836/dcf9b93d-f932-4364-b496-c99342bd8c45/slope+lab+1a.003.png?content-type=image%2Fpng"
       },
       {
         "slide": 4,
-        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/c05d77e4-5146-4ffd-9e56-bbdf39806bf1/Algebra+Studio+-+Slope+Lab+Lesson+1.004.png"
+        "url": "https://images.squarespace-cdn.com/content/63c8d6e63d254d69ecd76836/3c58ce34-fa83-49b8-b727-097703451fe9/slope+lab+1a.004.png?content-type=image%2Fpng"
       },
       {
         "slide": 5,
-        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/f30288e3-883a-49dc-8fd0-4a576ac6ccc7/Algebra+Studio+-+Slope+Lab+Lesson+1.005.png"
+        "url": "https://images.squarespace-cdn.com/content/63c8d6e63d254d69ecd76836/ce6cb990-58af-4b06-a925-7ffeafbd9814/slope+lab+1a.005.png?content-type=image%2Fpng"
       },
       {
         "slide": 6,
-        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/98d3f855-16f4-4198-a53c-f34568488982/Algebra+Studio+-+Slope+Lab+Lesson+1.006.png"
+        "url": "https://images.squarespace-cdn.com/content/63c8d6e63d254d69ecd76836/7971c3f1-350f-4220-9c2d-8f4712e1fd7a/slope+lab+1a.006.png?content-type=image%2Fpng"
       },
       {
         "slide": 7,
-        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/cd314ac7-7c55-42cc-af5e-f90200ce1c43/Algebra+Studio+-+Slope+Lab+Lesson+1.007.png"
+        "url": "https://images.squarespace-cdn.com/content/63c8d6e63d254d69ecd76836/08f73ba7-050f-430e-a005-69fbc7839bf2/slope+lab+1a.007.png?content-type=image%2Fpng"
       },
       {
         "slide": 8,
-        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/8679a456-dc31-4abe-9537-2de68fee8ea0/Algebra+Studio+-+Slope+Lab+Lesson+1.008.png"
+        "url": "https://images.squarespace-cdn.com/content/63c8d6e63d254d69ecd76836/fb62563b-74cd-4bd6-8187-96ffdb4552dd/slope+lab+1a.008.png?content-type=image%2Fpng"
       },
       {
         "slide": 9,
-        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/1618c2ce-1d0d-401f-9461-c1723b1d792b/Algebra+Studio+-+Slope+Lab+Lesson+1.009.png"
+        "url": "https://images.squarespace-cdn.com/content/63c8d6e63d254d69ecd76836/606d9184-153a-4b7d-aaf9-35e2ab55ce0e/slope+lab+1a.009.png?content-type=image%2Fpng"
       },
       {
         "slide": 10,
-        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/64435c4c-5d6a-4993-ab72-2dd3d187e83e/Algebra+Studio+-+Slope+Lab+Lesson+1.010.png"
+        "url": "https://images.squarespace-cdn.com/content/63c8d6e63d254d69ecd76836/7e7cf1c7-0aa9-46c5-bdb5-09a11019217a/slope+lab+1a.010.png?content-type=image%2Fpng"
       },
       {
         "slide": 11,
-        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/cf6f11d1-5943-4abe-ad4a-7fa8687a4484/Algebra+Studio+-+Slope+Lab+Lesson+1.011.png"
+        "url": "https://images.squarespace-cdn.com/content/63c8d6e63d254d69ecd76836/dda396cf-b71f-417b-9de6-e3188feab13f/slope+lab+1a.011.png?content-type=image%2Fpng"
       },
       {
         "slide": 12,
-        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/c09a674f-ee73-4d5e-9efc-f29ed8ccd84f/Algebra+Studio+-+Slope+Lab+Lesson+1.012.png"
+        "url": "https://images.squarespace-cdn.com/content/63c8d6e63d254d69ecd76836/c37dd358-4e42-411b-850d-1f1cf2eeb5b3/slope+lab+1a.012.png?content-type=image%2Fpng"
       },
       {
         "slide": 13,
-        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/895dcfdb-ec25-4b4b-a12b-3da168bfcf98/Algebra+Studio+-+Slope+Lab+Lesson+1.013.png"
+        "url": "https://images.squarespace-cdn.com/content/63c8d6e63d254d69ecd76836/875954a2-865f-4010-a571-df01eee46a70/slope+lab+1a.013.png?content-type=image%2Fpng"
       },
       {
         "slide": 14,
-        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/1a94fd10-51a0-4113-9e41-7191337057ab/Algebra+Studio+-+Slope+Lab+Lesson+1.014.png"
+        "url": "https://images.squarespace-cdn.com/content/63c8d6e63d254d69ecd76836/25ada65c-114d-43ad-9bdf-24651f5a139e/slope+lab+1a.014.png?content-type=image%2Fpng"
       },
       {
         "slide": 15,
-        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/d88d1697-650a-4430-be32-fc1a4bde3da8/Algebra+Studio+-+Slope+Lab+Lesson+1.015.png"
+        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/c63e9296-6ca5-4f44-a19b-a95effba1c70/1a-15.001.png?format=1000w"
       },
       {
         "slide": 16,
-        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/f23f8d1b-4240-4f80-8da0-919fe81c10d1/Algebra+Studio+-+Slope+Lab+Lesson+1.016.png"
+        "url": "https://images.squarespace-cdn.com/content/63c8d6e63d254d69ecd76836/4a066c79-8632-4435-9375-0cd55b84bf1a/slope+lab+1a.016.png?content-type=image%2Fpng"
       },
       {
         "slide": 17,
-        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/ba251cd3-aa34-499f-9752-169ab53f3921/Algebra+Studio+-+Slope+Lab+Lesson+1.017.png"
+        "url": "https://images.squarespace-cdn.com/content/63c8d6e63d254d69ecd76836/5d24a29a-e469-4bfd-96b5-e8a395fb44fd/slope+lab+1a.017.png?content-type=image%2Fpng"
       },
       {
         "slide": 18,
-        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/0fd593b0-14d9-4e38-974c-75b968e138d1/Algebra+Studio+-+Slope+Lab+Lesson+1.018.png"
+        "url": "https://images.squarespace-cdn.com/content/63c8d6e63d254d69ecd76836/ddc6f699-b9fe-4234-81e4-3b848a7782e8/slope+lab+1a.018.png?content-type=image%2Fpng"
       },
       {
         "slide": 19,
-        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/d1dd79fb-d02c-4aac-9928-140e48835b45/Algebra+Studio+-+Slope+Lab+Lesson+1.019.png"
+        "url": "https://images.squarespace-cdn.com/content/63c8d6e63d254d69ecd76836/be6fa732-0237-4d85-ac1c-f220559dd821/slope+lab+1a.019.png?content-type=image%2Fpng"
       },
       {
         "slide": 20,
-        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/96880054-6074-401b-aee2-3b890bec1719/Algebra+Studio+-+Slope+Lab+Lesson+1.020.png"
+        "url": "https://images.squarespace-cdn.com/content/63c8d6e63d254d69ecd76836/7f8bcfea-9824-41fc-9930-f64730abc9c3/slope+lab+1a.020.png?content-type=image%2Fpng"
       },
       {
         "slide": 21,
-        "url": "https://images.squarespace-cdn.com/content/v1/67b0f8a59e65415ea7dd54ca/33a39b7b-0c55-4569-9cce-0122968e65fd/Algebra+Studio+-+Slope+Lab+Lesson+1.021.png"
+        "url": "https://images.squarespace-cdn.com/content/63c8d6e63d254d69ecd76836/da568cc3-258c-454f-9be3-d89290ca1ea4/slope+lab+1a.021.png?content-type=image%2Fpng"
+      },
+      {
+        "slide": 22,
+        "url": "https://images.squarespace-cdn.com/content/63c8d6e63d254d69ecd76836/692c87d3-ae5d-45d7-9db6-da858fbd37c9/slope+lab+1a.022.png?content-type=image%2Fpng"
       }
     ]
   },
