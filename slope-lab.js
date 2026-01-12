@@ -590,5 +590,227 @@ window.slopeLabData = [
         "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/080636a5-25a3-448d-95dd-6180f85f27bb/slope+lab+6.017.png?content-type=image%2Fpng"
       }
     ]
+  },
+  {
+    "lesson": 7,
+    "lessonName": "Movement Stories",
+    "prints": 1,
+    "materials": 1,
+    "controls": [
+      {
+        "type": "Slides",
+        "name": "Lesson 7: Movement Stories"
+      },
+      {
+        "type": "Timer",
+        "name": "Timer"
+      }
+    ],
+    "videos": [
+      {
+        "name": "Graphing Motion",
+        "wistiaId": "wwh07vpwkl"
+      }
+    ],
+    "pdfSections": [
+      {
+        "heading": "Download All Printables",
+        "strong": false,
+        "membership": 0,
+        "url": "https://www.algebrastudio.org/s/slope-lab-7-printables.pdf",
+        "scissors": null,
+        "tape": null,
+        "items": []
+      }
+    ],
+    "slides": [
+      {
+        "slide": 1,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/bad5d2f0-c64d-4386-876c-7b57e097b09d/slope+lab+7.001.png?content-type=image%2Fpng"
+      },
+      {
+        "slide": 2,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/4ff4469d-b98b-4f52-be6b-868580d5e859/slope+lab+7.002.png?content-type=image%2Fpng"
+      },
+      {
+        "slide": 3,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/0d2446f1-1679-49a4-985d-98b2e710ed85/slope+lab+7.003.png?content-type=image%2Fpng",
+        "videoId": "wwh07vpwkl"
+      },
+      {
+        "slide": 4,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/a54c31a3-dfe4-49ca-a0ec-de3752144a14/slope+lab+7.004.png?content-type=image%2Fpng"
+      },
+      {
+        "slide": 5,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/3061a665-9d3f-4aac-ae64-4e33efc9e1da/slope+lab+7.005.png?content-type=image%2Fpng"
+      },
+      {
+        "slide": 6,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/daee2773-9882-4a23-96ac-46d06e87d556/slope+lab+7.006.png?content-type=image%2Fpng"
+      }
+    ]
+  },
+  {
+    "lesson": 8,
+    "lessonName": "The Motor Racer",
+    "prints": 1,
+    "materials": 1,
+    "controls": [
+      {
+        "type": "Slides",
+        "name": "Lesson 8: The Motor Racer"
+      },
+      {
+        "type": "Timer",
+        "name": "Timer"
+      }
+    ],
+    "videos": [],
+    "pdfSections": [
+      {
+        "heading": "Download All Printables",
+        "strong": false,
+        "membership": 0,
+        "url": "https://www.algebrastudio.org/s/8-Exit-SL-key.pdf",
+        "scissors": null,
+        "tape": null,
+        "items": []
+      }
+    ],
+    "slides": [
+      {
+        "slide": 1,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/417b7aa4-0937-4327-8c9e-e22cee89ff26/slope+lab+8.001.png?content-type=image%2Fpng"
+      },
+      {
+        "slide": 2,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/eb76007e-98f1-4dd0-8b7b-6fd7aab0dd22/slope+lab+8.002.png?content-type=image%2Fpng"
+      },
+      {
+        "slide": 3,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/7cbe328c-f86c-4782-9e16-cfdffc7f2e14/slope+lab+8.003.png?content-type=image%2Fpng"
+      },
+      {
+        "slide": 4,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/2e5849b0-c3d4-461b-bca3-df51a5c3027c/slope+lab+8.004.png?content-type=image%2Fpng"
+      },
+      {
+        "slide": 5,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/404615d0-02f6-40dd-b8fc-d909065dedf1/slope+lab+8.005.png?content-type=image%2Fpng"
+      },
+      {
+        "slide": 6,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/62be2a02-6e8c-411a-bfe8-17af84867a83/slope+lab+8.006.png?content-type=image%2Fpng"
+      },
+      {
+        "slide": 7,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/a3da12c8-3113-43fd-ad31-7ebf81689924/slope+lab+8.007.png?content-type=image%2Fpng"
+      },
+      {
+        "slide": 8,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/74959f64-9fe6-4ea7-b4ae-08b6b249f085/slope+lab+8.008.png?content-type=image%2Fpng"
+      },
+      {
+        "slide": 9,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/b1f16e01-8058-403e-b8fe-8c2672cc6015/slope+lab+8.009.png?content-type=image%2Fpng"
+      }
+    ]
+  },
+  {
+    "lesson": 9,
+    "lessonName": "Motor Racer Time Trial",
+    "prints": 1,
+    "materials": 1,
+    "controls": [
+      {
+        "type": "Slides",
+        "name": "Lesson 9: Motor Racer Time Trial"
+      },
+      {
+        "type": "Timer",
+        "name": "Timer"
+      }
+    ],
+    "videos": [
+      {
+        "name": "Metric Conversion",
+        "wistiaId": "snb99sv40a"
+      }
+    ],
+    "pdfSections": [
+      {
+        "heading": "Download All Printables",
+        "strong": false,
+        "membership": 0,
+        "url": "https://www.algebrastudio.org/s/slope-lab-9-printables.pdf",
+        "scissors": null,
+        "tape": null,
+        "items": []
+      }
+    ],
+    "slides": [
+      {
+        "slide": 1,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/daa08232-a543-42a3-918f-054fa931f4cc/slope+lab+9.001.png?content-type=image%2Fpng"
+      },
+      {
+        "slide": 2,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/69efa127-1f5a-4a82-ac88-2aff456a3756/slope+lab+9.002.png?content-type=image%2Fpng"
+      },
+      {
+        "slide": 3,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/15911807-9684-4eaf-a795-9027482ba632/slope+lab+9.003.png?content-type=image%2Fpng"
+      },
+      {
+        "slide": 4,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/28f652eb-58bb-45f9-8cbc-080bdef27c71/slope+lab+9.004.png?content-type=image%2Fpng"
+      },
+      {
+        "slide": 5,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/e7596420-c15c-408b-88c9-65b00bd31d65/slope+lab+9.005.png?content-type=image%2Fpng",
+        "videoId": "snb99sv40a"
+      },
+      {
+        "slide": 6,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/5aa5b979-876a-41bb-9d59-634f175f78d7/slope+lab+9.006.png?content-type=image%2Fpng"
+      },
+      {
+        "slide": 7,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/11093696-77e6-4e96-8f79-3f835f195a8e/slope+lab+9.007.png?content-type=image%2Fpng"
+      },
+      {
+        "slide": 8,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/7bace04f-6c8f-434c-91b2-cbd75cd4b6c6/slope+lab+9.008.png?content-type=image%2Fpng"
+      },
+      {
+        "slide": 9,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/8cc61a16-368b-4014-965b-dd306cdebc1d/slope+lab+9.009.png?content-type=image%2Fpng"
+      },
+      {
+        "slide": 10,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/c071a250-cf31-4688-ac3e-78eec48736ed/slope+lab+9.010.png?content-type=image%2Fpng"
+      },
+      {
+        "slide": 11,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/40a705dd-72d0-46ec-9631-547bdecae518/slope+lab+9.011.png?content-type=image%2Fpng"
+      },
+      {
+        "slide": 12,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/b5bc0fd2-3ef6-4ad5-a38c-6b2d0c9e1f8d/slope+lab+9.012.png?content-type=image%2Fpng"
+      },
+      {
+        "slide": 13,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/38a25aa8-953c-46a1-8e66-bc5975379368/slope+lab+9.013.png?content-type=image%2Fpng"
+      },
+      {
+        "slide": 14,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/05dd8016-ba8b-4f07-b788-73e7aca45d30/slope+lab+9.014.png?content-type=image%2Fpng"
+      },
+      {
+        "slide": 15,
+        "url": "https://images.squarespace-cdn.com/content/67b0f8a59e65415ea7dd54ca/b81ce889-00bf-4898-9a7a-8919f445e6bd/slope+lab+9.015.png?content-type=image%2Fpng"
+      }
+    ]
   }
 ];
